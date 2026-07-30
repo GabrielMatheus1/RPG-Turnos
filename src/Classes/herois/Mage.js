@@ -1,6 +1,10 @@
-export class Mage {
+import { Personagem } from '../Personagens.js'
+
+export class Mage extends Personagem {
 
     constructor(obj) {
+        super(obj)
+
         this.magia = obj.magia || 10;
         this.defesa = obj.defesa || 20;
     }
@@ -32,11 +36,37 @@ export class Mage {
 
         const dano = (this.magia * 0.3) * this.nivel;
 
-        console.log( `\n${this.nome} lançou Bola de Fogo em ${alvo.nome}!` );
+        console.log(`\n${this.nome} lançou Bola de Fogo em ${alvo.nome}!`);
 
         return alvo.receberDano(dano);
     }
 
+
+    exibirStatus() {
+
+        console.log('===========================')
+        console.log(`Nome: ${this.nome}`)
+        console.log(`Classe: ${this.classe}`)
+        console.log(`Nivel: ${this.nivel}`)
+        console.log(`HP: ${this.vida} / ${this.hpMax}`)
+        console.log(`Defesa: ${this.defesa}`)
+        console.log(`Magia: ${this.magia}`)
+        console.log(`XP: ${this.xp} / ${this.xpProximoNivel}`)
+        console.log('===========================')
+
+        return {
+            Nome: this.nome,
+            Classe: this.classe,
+            Nivel: this.nivel,
+            Vida: this.vida,
+            Hp: this.hpMax,
+            Defesa: this.defesa,
+            Magia: this.magia,
+            Xp: this.xp,
+            xpProximoNivel: this.xpProximoNivel
+        }
+
+    }
 
 
 }
