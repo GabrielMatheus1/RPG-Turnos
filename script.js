@@ -6,8 +6,8 @@ const personagem = new Personagem({
 });
 
 const personagem2 = new Personagem({
-    name: "Melindasdo",
-    classe: "asd"
+    name: "Melippdasdo",
+    classe: "asd" 
 });
 
 
