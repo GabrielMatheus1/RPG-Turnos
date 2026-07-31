@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Mage } from "./src/Classes/herois/Mage.js";
 import { Archer } from "./src/Classes/herois/Archer.js"
 
@@ -45,3 +46,15 @@ arqueiro.curar()
 
 mago.fireball(arqueiro)
 arqueiro.flechada(mago)
+=======
+import { Mage } from './src/Classes/herois/Mage.js'
+
+
+const person = new Mage({
+    nome: "Gabriel",
+    classe: "Mage"
+})
+
+
+person.exibirStatus()
+>>>>>>> 6960446287454f3815a018d76d678bbaf1defedc
