@@ -1,11 +1,10 @@
-import { Movimentos } from "../Movimento.js";
+export class MovimentoMage {
 
-export class MovimentoMage extends Movimentos {
+    constructor() {
 
-    constructor(jogador) {
-        super(jogador)
-        this.velocidade = 5;
-        this.direcao = "direita";
+        this.velocidade = 2;
+        this.direcao = "direita"; 
+        this.atacando = false
 
         this.sprites = {
             parado: this.carregarImagens([
@@ -14,12 +13,14 @@ export class MovimentoMage extends Movimentos {
                 "./src/Imagens/herois/Idle/idle_03.png",
                 "./src/Imagens/herois/Idle/idle_04.png",
             ]),
+
             andar: this.carregarImagens([
                 "./src/Imagens/herois/Walk/walk_01.png",
                 "./src/Imagens/herois/Walk/walk_02.png",
                 "./src/Imagens/herois/Walk/walk_03.png",
                 "./src/Imagens/herois/Walk/walk_04.png"
             ]),
+
             atacar: this.carregarImagens([
                 "./src/Imagens/herois/Attack/attack_01.png",
                 "./src/Imagens/herois/Attack/attack_02.png",
@@ -27,11 +28,14 @@ export class MovimentoMage extends Movimentos {
                 "./src/Imagens/herois/Attack/attack_04.png"
             ])
         };
+
     }
+
 
     parado() {
         return this.sprites.parado;
     }
+
 
     andar() {
         return this.sprites.andar;
@@ -41,6 +45,7 @@ export class MovimentoMage extends Movimentos {
     atacar() {
         return this.sprites.atacar;
     }
+
 
     mover(jogador, teclas, limite) {
         let movimentoX = 0;
@@ -64,11 +69,21 @@ export class MovimentoMage extends Movimentos {
             movimentoY += 1;
         }
 
+        if (teclas.j) {
+            this.atacando = true
+            this.atacar()
+        } else {
+            this.atacando = false
+        }
+
         if (movimentoX === 0 && movimentoY === 0) {
             return false;
         }
 
+
+
         const distancia = Math.hypot(movimentoX, movimentoY);
+        
         const proximoX = jogador.x + (movimentoX / distancia) * this.velocidade;
         const proximoY = jogador.y + (movimentoY / distancia) * this.velocidade;
 
@@ -78,6 +93,14 @@ export class MovimentoMage extends Movimentos {
         return true;
     }
 
+    carregarImagens(caminhos) {
+        return caminhos.map((caminho) => {
+            const imagem = new Image();
+            imagem.src = caminho;
+
+            return imagem;
+        });
+    }
     
 }
 
