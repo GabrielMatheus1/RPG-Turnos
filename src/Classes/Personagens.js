@@ -105,6 +105,27 @@ export class Personagem {
 
                 break;
 
+            case "archer":
+                this.hpMax += 120;
+                this.vida += 120;
+                this.ataque += 7;
+                this.defesa += 1;
+
+
+                this.vida = Math.min(this.vida, this.hpMax);
+
+                console.log(`\n${this.nome} subiu do nível ${atributos.nivel} para o nível ${this.nivel}!`);
+                console.log("------------------------------------------------");
+                console.log("Atributo | Antes | Depois | Aumento");
+                console.log("------------------------------------------------");
+                console.log(`Vida     | ${atributos.vida}\t| ${this.vida}\t| +${this.vida - atributos.vida}`);
+                console.log(`HP       | ${atributos.hp}\t| ${this.hpMax}\t| +${this.hpMax - atributos.hp}`);
+                console.log(`Ataque    | ${atributos.ataque}\t| ${this.ataque}\t| +${this.ataque - atributos.ataque}`);
+                console.log(`Defesa   | ${atributos.defesa}\t| ${this.defesa}\t| +${this.defesa - atributos.defesa}`);
+                console.log("------------------------------------------------ \n");
+
+                break;
+
             default:
                 console.log(`A classe ${this.classe} ainda não possui evolução configurada.`);
                 break;
@@ -115,15 +136,14 @@ export class Personagem {
 
 
 
-
     curar() {
         this.vida = this.hpMax;
+        console.log("\n===========================")
         console.log(`${this.nome} recuperou toda a vida: ${this.vida}/${this.hpMax}`);
+        console.log("===========================\n")
     }
 
 
-
-    
 
 }
 
