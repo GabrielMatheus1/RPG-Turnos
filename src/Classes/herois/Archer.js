@@ -1,12 +1,12 @@
 import { Personagem } from "../Personagens.js"
 
 
-export class Mage extends Personagem {
+export class Archer extends Personagem {
 
     constructor(obj) {
         super(obj)
-        this.magia = obj.magia || 10;
-        this.defesa = obj.defesa || 20;
+        this.ataque = obj.ataque || 15;
+        this.defesa = obj.defesa || 18;
     }
 
 
@@ -28,20 +28,20 @@ export class Mage extends Personagem {
 
 
 
-    fireball(alvo) {
+    flechada(alvo) {
 
         if (!this.podeAtacar(alvo)) {
             return 0;
         }
 
-        const dano = (this.magia * 0.3) * this.nivel;
+        const dano = (this.ataque * 0.4) * this.nivel;
 
-        console.log( `\n${this.nome} lançou Bola de Fogo em ${alvo.nome}!` );
+        console.log( `\n${this.nome} Atirou uma Flecha em ${alvo.nome}!` );
 
         return alvo.receberDano(dano);
     }
 
-  
+
   exibirStatus() {
 
         console.log('\n===========================')
@@ -49,8 +49,8 @@ export class Mage extends Personagem {
         console.log(`Classe: ${this.classe}`)
         console.log(`Nivel: ${this.nivel}`)
         console.log(`HP: ${this.vida} / ${this.hpMax}`)
+        console.log(`Ataque: ${this.ataque}`)
         console.log(`Defesa: ${this.defesa}`)
-        console.log(`Magia: ${this.magia}`)
         console.log(`XP: ${this.xp} / ${this.xpProximoNivel}`)
         console.log('===========================\n')
 
@@ -60,14 +60,12 @@ export class Mage extends Personagem {
             Nivel: this.nivel,
             Vida: this.vida,
             Hp: this.hpMax,
-            Defesa: this.defesa,
-            Magia: this.magia,
+            Ataque: this.ataque,
             Xp: this.xp,
             xpProximoNivel: this.xpProximoNivel
         }
 
     }
-
 
 
 

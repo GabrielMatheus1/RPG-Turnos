@@ -1,9 +1,7 @@
-import { Mage } from "./herois/Mage.js";
 
-export class Personagem extends Mage {
+export class Personagem {
 
     constructor(obj) {
-        super(obj)
 
         this.nome = obj.name;
         this.classe = obj.classe;
@@ -35,6 +33,7 @@ export class Personagem extends Mage {
 
         this.vida = Math.max(0, this.vida - danoRecebido);
 
+        console.log("\n===========================")
         console.log(`${this.nome} recebeu ${danoRecebido} de dano.`);
         console.log(`Vida: ${this.vida}/${this.hpMax}`);
 
@@ -42,6 +41,7 @@ export class Personagem extends Mage {
             console.log(`${this.nome} foi derrotado!`);
         }
 
+        console.log("===========================\n")
         return danoRecebido;
     }
 
@@ -51,7 +51,8 @@ export class Personagem extends Mage {
 
         this.xp += quantidade;
 
-        console.log(`\n${this.nome} recebeu ${quantidade} de XP!`);
+        console.log("\n===========================")
+        console.log(`${this.nome} recebeu ${quantidade} de XP!`);
 
         while (this.xp >= this.xpProximoNivel) {
 
@@ -61,7 +62,7 @@ export class Personagem extends Mage {
         }
 
         console.log(`XP atual: ${this.xp}/${this.xpProximoNivel}`);
-
+        console.log("===========================\n")
     }
 
 
@@ -116,41 +117,13 @@ export class Personagem extends Mage {
 
 
     curar() {
-
         this.vida = this.hpMax;
         console.log(`${this.nome} recuperou toda a vida: ${this.vida}/${this.hpMax}`);
     }
 
 
 
-    exibirStatus() {
-
-        console.log('===========================')
-        console.log(`Nome: ${this.nome}`)
-        console.log(`Classe: ${this.classe}`)
-        console.log(`Nivel: ${this.nivel}`)
-        console.log(`HP: ${this.vida} / ${this.hpMax}`)
-        console.log(`Ataque: ${this.ataque}`)
-        console.log(`Defesa: ${this.defesa}`)
-        console.log(`Magia: ${this.magia}`)
-        console.log(`XP: ${this.xp} / ${this.xpProximoNivel}`)
-        console.log('===========================')
-
-        return {
-            Nome: this.nome,
-            Classe: this.classe,
-            Nivel: this.nivel,
-            Vida: this.vida,
-            Hp: this.hpMax,
-            Ataque: this.ataque,
-            Defesa: this.defesa,
-            Magia: this.magia,
-            Xp: this.xp,
-            xpProximoNivel: this.xpProximoNivel
-        }
-
-    }
-
+    
 
 }
 

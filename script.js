@@ -1,29 +1,47 @@
-import { Personagem } from "./src/Classes/Personagens.js";
+import { Mage } from "./src/Classes/herois/Mage.js";
+import { Archer } from "./src/Classes/herois/Archer.js"
 
-const personagem = new Personagem({
+const mago = new Mage({
     name: "Melindo",
     classe: "Mage"
 });
 
-const personagem2 = new Personagem({
-    name: "Melippdasdo",
-    classe: "asd" 
+const arqueiro = new Archer({
+    name: "Artemora",
+    classe: "Archer" 
 });
 
 
-// estatus 
-personagem.exibirStatus();
 
-// receber dano
-personagem.receberDano(21);
 
-// ganhar xp
-personagem.ganharXp(201);
+
+console.log("===========================")
+console.log("      Status Inicial")
+
+mago.exibirStatus();
+arqueiro.exibirStatus()
+
+
+
+console.log("===========================")
+console.log("    Recebendo Dano")
+
+mago.receberDano(21);
+arqueiro.receberDano(20)
+
+
+
+console.log("===========================")
+console.log("    Recebendo XP")
+
+mago.ganharXp(201);
+arqueiro.ganharXp(201)
 
 // curar 
-personagem.curar(201);
+mago.curar();
+arqueiro.curar()
 
 
 
-personagem.fireball(personagem2)
-personagem2.fireball(personagem)
+mago.fireball(arqueiro)
+arqueiro.flechada(mago)
