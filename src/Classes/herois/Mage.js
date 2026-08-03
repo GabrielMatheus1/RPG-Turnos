@@ -7,7 +7,7 @@ export class Mage extends Personagem {
         super(obj)
         this.magia = obj.magia || 300;
         this.defesa = obj.defesa || 20;
-    }
+    } 
 
 
 

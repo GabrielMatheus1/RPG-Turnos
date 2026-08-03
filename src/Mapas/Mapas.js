@@ -1,9 +1,8 @@
-import { Monstro } from "../classes/Personagens.js";
-import { Goblin } from "../classes/monstros/Goblin.js";
-import { DragaoBoss } from "../classes/monstros/DragaoBoss.js";
+import { Mage } from '../Classes/herois/Mage.js';
 
-import { Batalha } from "../utils/Batalha.js";
+import { Goblin } from '../Classes/inimigos/Goblin.js';
 
+import { Batalha } from '../Utils/Batalha.js'
 
 export class Mapa {
 
@@ -45,61 +44,62 @@ export class Mapa {
                     defesa: 3,
                     xpRecompensa: 160
                 })
-            },
-
-            caverna: {
-                nome: "Caverna Antiga",
-
-                descricao:
-                    "Uma caverna fria cheia de esqueletos.",
-
-                norte: "castelo",
-                sul: "floresta",
-                leste: null,
-                oeste: null,
-
-                inimigo: new Monstro({
-                    name: "Esqueleto Guerreiro",
-                    tipo: "Esqueleto",
-                    nivel: 3,
-                    vida: 100,
-                    hp: 100,
-                    ataque: 20,
-                    defesa: 6,
-                    xpRecompensa: 150
-                })
-            },
-
-            castelo: {
-                nome: "Castelo do Dragão",
-
-                descricao:
-                    "O covil de Drakar, o Dragão Ancestral.",
-
-                norte: null,
-                sul: "caverna",
-                leste: null,
-                oeste: null,
-
-                inimigo: new DragaoBoss({
-                    name: "Drakar, o Dragão Ancestral",
-                    tipo: "Dragão",
-                    nivel: 10,
-                    vida: 500,
-                    hp: 500,
-                    ataque: 40,
-                    defesa: 10,
-                    xpRecompensa: 1000
-                }, 60)
             }
 
-            
+            // caverna: {
+            //     nome: "Caverna Antiga",
 
-          
+            //     descricao:
+            //         "Uma caverna fria cheia de esqueletos.",
+
+            //     norte: "castelo",
+            //     sul: "floresta",
+            //     leste: null,
+            //     oeste: null,
+
+            //     inimigo: new Monstro({
+            //         name: "Esqueleto Guerreiro",
+            //         tipo: "Esqueleto",
+            //         nivel: 3,
+            //         vida: 100,
+            //         hp: 100,
+            //         ataque: 20,
+            //         defesa: 6,
+            //         xpRecompensa: 150
+            //     })
+            // },
+
+            // castelo: {
+            //     nome: "Castelo do Dragão",
+
+            //     descricao:
+            //         "O covil de Drakar, o Dragão Ancestral.",
+
+            //     norte: null,
+            //     sul: "caverna",
+            //     leste: null,
+            //     oeste: null,
+
+            //     inimigo: new DragaoBoss({
+            //         name: "Drakar, o Dragão Ancestral",
+            //         tipo: "Dragão",
+            //         nivel: 10,
+            //         vida: 500,
+            //         hp: 500,
+            //         ataque: 40,
+            //         defesa: 10,
+            //         xpRecompensa: 1000
+            //     }, 60)
+            // }
+
+
+
+
         };
 
         this.posicaoAtual = "vila";
     }
+
 
 
     obterLocalAtual() {
@@ -107,38 +107,59 @@ export class Mapa {
     }
 
 
+
+    exibirMapa() {
+
+        const localAtual = this.obterLocalAtual();
+
+        console.log(`\n
+================================
+              MAPA
+================================
+        [Castelo do Dragão]
+                |
+        [Caverna Antiga]      
+                |
+        [Floresta Sombria]
+                |
+        [Vila dos Magos]
+
+Local atual: ${localAtual.nome}
+
+================================
+        \n`);
+
+    }
+
+
+
     exibirLocal() {
 
-        const local =
-            this.obterLocalAtual();
+        const local = this.obterLocalAtual();
 
         console.log("\n================================");
         console.log(local.nome);
         console.log("================================");
         console.log(local.descricao);
 
-        if (
-            local.inimigo &&
-            local.inimigo.estaVivo()
-        ) {
-            console.log(
-                `\nInimigo encontrado: ${local.inimigo.nome}`
-            );
+        if (local.inimigo && local.inimigo.estaVivo()) {
+
+            console.log(`\nInimigo encontrado: ${local.inimigo.nome}`);
 
         } else {
-            console.log(
-                "\nNão existem inimigos vivos neste local."
-            );
+
+            console.log("\nNão existem inimigos vivos neste local.");
+
         }
 
         this.exibirCaminhos();
     }
 
 
+
     exibirCaminhos() {
 
-        const local =
-            this.obterLocalAtual();
+        const local = this.obterLocalAtual();
 
         console.log("\nCaminhos disponíveis:");
 
@@ -170,72 +191,52 @@ export class Mapa {
     }
 
 
+
     mover(direcao) {
 
-        const local =
-            this.obterLocalAtual();
+        const local = this.obterLocalAtual();
 
-        direcao =
-            direcao.toLowerCase();
+        direcao = direcao.toLowerCase();
 
         if (!local[direcao]) {
 
-            console.log(
-                `\nNão existe caminho para ${direcao}.`
-            );
-
+            console.log(`\nNão existe caminho para ${direcao}.`);
             return;
         }
 
-        if (
-            local.inimigo &&
-            local.inimigo.estaVivo()
-        ) {
-            console.log(
-                `\nVocê precisa derrotar ${local.inimigo.nome} antes de sair deste local.`
-            );
+        if (local.inimigo && local.inimigo.estaVivo()) {
 
+            console.log(`\nVocê precisa derrotar ${local.inimigo.nome} antes de sair deste local.`);
             return;
+
         }
 
-        this.posicaoAtual =
-            local[direcao];
+        this.posicaoAtual = local[direcao];
 
-        console.log(
-            `\n${this.jogador.nome} caminhou para ${direcao}.`
-        );
+        console.log(`\n${this.jogador.nome} caminhou para ${direcao}.`);
 
         this.exibirLocal();
     }
 
 
+
     iniciarBatalha() {
 
-        const local =
-            this.obterLocalAtual();
+        const local = this.obterLocalAtual();
 
         if (!local.inimigo) {
 
-            console.log(
-                "\nNão existe nenhum inimigo neste local."
-            );
-
+            console.log("\nNão existe nenhum inimigo neste local.");
             return null;
         }
 
         if (!local.inimigo.estaVivo()) {
 
-            console.log(
-                `\n${local.inimigo.nome} já foi derrotado.`
-            );
-
+            console.log(`\n${local.inimigo.nome} já foi derrotado.`);
             return null;
         }
 
-        const batalha = new Batalha(
-            this.jogador,
-            local.inimigo
-        );
+        const batalha = new Batalha(this.jogador, local.inimigo);
 
         batalha.iniciar();
 
@@ -256,26 +257,41 @@ export class Mapa {
         this.jogador.curar();
     }
 
-    exibirMapa() {
 
-        const localAtual =
-            this.obterLocalAtual();
 
-        console.log(`
-================================
-              MAPA
-================================
-        [Castelo do Dragão]
-                |
-        [Caverna Antiga]      
-                |
-        [Floresta Sombria]
-                |
-        [Vila dos Magos]
 
-Local atual: ${localAtual.nome}
-
-================================
-        `);
-    }
 }
+
+
+const mago = new Mage({
+    name: "Melindo",
+    classe: "Mage"
+});
+
+
+const mapa = new Mapa(mago)
+
+mapa.exibirMapa()
+mapa.exibirLocal()
+
+mapa.mover('norte')
+mapa.mover('norte')
+
+const battle = mapa.iniciarBatalha()
+
+
+if (!battle.finalizada) {
+
+    battle.turnoJogador('fireball')
+    battle.turnoJogador('fireball')
+    battle.turnoJogador('fireball')
+    battle.turnoJogador('fireball')
+    battle.turnoJogador('fireball')
+
+}
+
+
+mapa.mover('norte')
+
+
+
