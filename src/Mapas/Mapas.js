@@ -15,8 +15,7 @@ export class Mapa {
 
             vila: {
                 nome: "Vila dos Magos",
-                descricao:
-                    "Uma vila tranquila protegida por magia.",
+                descricao: "Uma vila tranquila protegida por magia.",
 
                 norte: "floresta",
                 sul: null,

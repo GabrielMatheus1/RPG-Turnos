@@ -1,32 +1,31 @@
-import { Monstros } from "../Personagens.js"
+import { Boss } from "../Personagens.js"
 
-
-export class  Goblin extends Monstros {
+export class Drakar extends Boss {
   
   constructor(obj) {
-    super(obj) 
+    super(obj)
 
-    this.nome = 'Goblin';
-    this.tipo = 'Goblin da Floresta'
-    this.ataque = 60;
-    this.defesa = 10;
-    this.vida =  400;
-    this.hpMax = 400;
-    this.xpRecompensa = 40;
+    this.nome = "Drakar";
+    this.ataque = 20;
+    this.defesa = 15;
+    this.tipo = "Dragao Ancestral";
+    this.vida = 2000;
+    this.hpMax = 2000;
+    this.xpRecompensa = 200
+    this.nivel = 10
   }
 
-
-  ataqueSimples(alvo) {
-
-        if (!this.estaVivo()) {
-            console.log(  `${this.nome} está derrotado e não pode atacar.`   );
-            return 0;
+    ataqueSimples(alvo) {
+    
+            if (!this.estaVivo()) {
+                console.log(  `${this.nome} está derrotado e não pode atacar.`   );
+                return 0;
+            }
+    
+            console.log( `\n${this.nome} atacou ${alvo.nome}!`  );
+    
+            return alvo.receberDano(this.ataque);
         }
-
-        console.log( `\n${this.nome} atacou ${alvo.nome}!`  );
-
-        return alvo.receberDano(this.ataque);
-    }
   
 
     exibirStatus() {
@@ -52,7 +51,6 @@ export class  Goblin extends Monstros {
             Xp: this.xpRecompensa
       }
     }
-
-
+  
   
 }

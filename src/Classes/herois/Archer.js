@@ -5,7 +5,7 @@ export class Archer extends Personagem {
 
     constructor(obj) {
         super(obj)
-        this.ataque = obj.ataque || 15;
+        this.ataque = obj.ataque || 95;
         this.defesa = obj.defesa || 18;
     }
 

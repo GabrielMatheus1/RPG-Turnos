@@ -1,8 +1,10 @@
 import { Mage } from "./src/Classes/herois/Mage.js";
 import { Archer } from "./src/Classes/herois/Archer.js"
+import { Goblin } from "./src/Classes/inimigos/Goblin.js"
+import { Drakar } from "./src/Classes/boss/Drakar.js"
 
 import { MovimentoMage } from './src/movimentos/herois/MoveMage.js'
-// const magoMove = new MovimentoMage()
+//const magoMove = new MovimentoMage()
 
 
 const mago = new Mage({
@@ -15,14 +17,16 @@ const arqueiro = new Archer({
     classe: "Archer"
 });
 
-
+const monstroUm = new Goblin()
+const drakar = new Drakar()
 
 console.log("===========================")
 console.log("      Status Inicial")
 
 mago.exibirStatus();
 arqueiro.exibirStatus()
-
+monstroUm.exibirStatus()
+drakar.exibirStatus()
 
 
 console.log("===========================")
@@ -30,16 +34,8 @@ console.log("    Recebendo Dano")
 
 mago.receberDano(21);
 arqueiro.receberDano(20)
-
-
-
-console.log("===========================")
-console.log("    Recebendo XP")
-
-mago.ganharXp(201);
-arqueiro.ganharXp(201)
-
-
+monstroUm.receberDano(320)
+drakar.receberDano(2000)
 
 console.log("===========================")
 console.log("    Recebendo Cura")
@@ -52,8 +48,22 @@ arqueiro.curar()
 console.log("===========================")
 console.log("        Atacando")
 
-mago.fireball(arqueiro)
-arqueiro.flechada(mago)
+mago.fireball(monstroUm)
+monstroUm.ataqueSimples(mago)
+arqueiro.flechada(monstroUm)
+drakar.ataqueSimples(mago)
+arqueiro.flechada(drakar)
+
+
+
+console.log("===========================")
+console.log("    Recebendo XP")
+
+mago.ganharXp(monstroUm.xpRecompensa);
+mago.ganharXp(monstroUm.xpRecompensa);
+arqueiro.ganharXp(drakar.xpRecompensa)
+arqueiro.ganharXp(drakar.xpRecompensa)
+
 
 
 

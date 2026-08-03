@@ -150,111 +150,83 @@ export class Personagem {
 
 
 
-export class Monstro {
+export class Monstros {
 
     constructor(obj) {
-        this.nome = obj.name;
-        this.tipo = obj.tipo;
-        this.nivel = obj.nivel;
-        this.vida = obj.vida;
-        this.hp = obj.hp;
-        this.ataque = obj.ataque;
-        this.defesa = obj.defesa;
-        this.xpRecompensa = obj.xpRecompensa;
+        this.nivel = 1;
     }
 
+  
     estaVivo() {
         return this.vida > 0;
     }
 
+  
     receberDano(danoBruto) {
 
-        const danoRecebido = Math.max(
-            0,
-            Math.round(danoBruto - this.defesa)
-        );
+        const danoRecebido = Math.max( 0, Math.round(danoBruto - this.defesa) );
 
-        this.vida = Math.max(
-            0,
-            this.vida - danoRecebido
-        );
-
-        console.log(
-            `${this.nome} recebeu ${danoRecebido} de dano.`
-        );
-
-        console.log(
-            `Vida: ${this.vida}/${this.hp}`
-        );
+        this.vida = Math.max( 0, this.vida - danoRecebido );
+        console.log("\n===========================")
+        console.log(  `${this.nome} recebeu ${danoRecebido} de dano.`  );
+        console.log( `Vida: ${this.vida}/${this.hpMax}`   );
 
         if (!this.estaVivo()) {
             console.log(`${this.nome} foi derrotado!`);
         }
-
+      
+        console.log("===========================\n")
+      
         return danoRecebido;
     }
 
-    atacar(alvo) {
 
-        if (!this.estaVivo()) {
-            console.log(
-                `${this.nome} está derrotado e não pode atacar.`
-            );
-
-            return 0;
-        }
-
-        console.log(
-            `\n${this.nome} atacou ${alvo.nome}!`
-        );
-
-        return alvo.receberDano(this.ataque);
-    }
-
-    exibirStatus() {
-
-        console.log("\n================================");
-        console.log(`Nome: ${this.nome}`);
-        console.log(`Tipo: ${this.tipo}`);
-        console.log(`Nível: ${this.nivel}`);
-        console.log(`Vida: ${this.vida}/${this.hp}`);
-        console.log(`Ataque: ${this.ataque}`);
-        console.log(`Defesa: ${this.defesa}`);
-        console.log(`XP da recompensa: ${this.xpRecompensa}`);
-        console.log("================================");
-    }
+    
 }
 
-export class Boss extends Monstro {
+
+
+
+export class Boss {
 
     constructor(obj) {
-        super(obj);
-
         this.fase = 1;
-        this.vidaMaxima = obj.hp;
     }
 
-    receberDano(dano) {
 
-        const danoRecebido =
-            super.receberDano(dano);
+  estaVivo() {
+        return this.vida > 0;
+    }
 
-        if (this.estaVivo()) {
-            this.atualizarFase();
+  
+
+    receberDano(danoBruto) {
+
+        const danoRecebido = Math.max( 0, Math.round(danoBruto - this.defesa) );
+
+        this.vida = Math.max( 0, this.vida - danoRecebido );
+        console.log("\n===========================")
+        console.log( `${this.nome} recebeu ${danoRecebido} de dano.`  );
+        console.log( `Vida: ${this.vida}/${this.hpMax}`   );
+
+        if (!this.estaVivo()) {
+            console.log(`${this.nome} foi derrotado!`);
+        } else {
+          this.atualizarFase()
         }
-
+      
+        console.log("===========================\n")
+      
         return danoRecebido;
     }
 
+
+  
     atualizarFase() {
 
-        const porcentagemVida =
-            (this.vida / this.vidaMaxima) * 100;
+        const porcentagemVida = (this.vida / this.hpMax) * 100;
 
-        if (
-            porcentagemVida <= 50 &&
-            this.fase === 1
-        ) {
+        if ( porcentagemVida <= 70 && this.fase === 1) {
             this.fase = 2;
 
             this.ataque += 10;
@@ -265,27 +237,25 @@ export class Boss extends Monstro {
             console.log("O chefe ficou mais forte!");
             console.log(`Ataque: ${this.ataque}`);
             console.log(`Defesa: ${this.defesa}`);
-            console.log("================================");
+            console.log("================================\n");
         }
     }
+  
 
     ataqueEspecial(alvo) {
-
+      
+        console.log("\n================================");
         if (!this.estaVivo()) {
-            console.log(
-                `${this.nome} está derrotado e não pode atacar.`
-            );
-
+            console.log( `${this.nome} está derrotado e não pode atacar.`  );
             return 0;
         }
 
-        const dano =
-            this.ataque * 2;
+        const dano =   this.ataque * 2;
 
-        console.log(
-            `\n${this.nome} usou um ATAQUE ESPECIAL!`
-        );
+        console.log(`\n${this.nome} usou um ATAQUE ESPECIAL!` );
+        console.log("================================\n");
 
         return alvo.receberDano(dano);
     }
+  
 }

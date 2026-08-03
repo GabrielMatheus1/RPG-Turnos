@@ -5,13 +5,15 @@ export class Mage extends Personagem {
 
     constructor(obj) {
         super(obj)
-        this.magia = obj.magia || 10;
+        this.magia = obj.magia || 300;
         this.defesa = obj.defesa || 20;
     }
 
 
 
     podeAtacar(alvo) {
+
+      
 
         if (!this.estaVivo()) {
             console.log(`${this.nome} está derrotado e não pode atacar.`);
@@ -66,7 +68,7 @@ export class Mage extends Personagem {
             xpProximoNivel: this.xpProximoNivel
         }
 
-    }
+    }  
 
 
 
