@@ -1,8 +1,8 @@
 // para batalha, classes e mapa
-import { Mage } from "./src/Classes/herois/Mage.js";
-import { Archer } from "./src/Classes/herois/Archer.js"
+// import { Mage } from "./src/Classes/herois/Mage.js";
+// import { Archer } from "./src/Classes/herois/Archer.js"
 
-import { Mapa } from "./src/Mapas/Mapas.js";
+// import { Mapa } from "./src/Mapas/Mapas.js";
 
 // para batalha e classes
 // import { Goblin } from "./src/Classes/inimigos/Goblin.js"
@@ -16,87 +16,88 @@ import { Mapa } from "./src/Mapas/Mapas.js";
 // const magoMove = new MovimentoMage()
 
 
+
+
 // // ================================
 // // Teste de Batalha
 // // ================================
 
-
-const mago = new Mage({
-    name: "Melindo",
-    classe: "Mage"
-});
-
-
-const mapa = new Mapa(mago)
-
-mapa.exibirMapa()
-mapa.exibirLocal()
-
-mapa.mover('norte')
-mapa.mover('norte')
-
-const battle = mapa.iniciarBatalha()
+// const mago = new Mage({
+//     name: "Melindo",
+//     classe: "Mage"
+// });
 
 
-if (!battle.finalizada) {
+// const mapa = new Mapa(mago)
 
-    battle.turnoJogador('fireball')
-    battle.turnoJogador('fireball')
-    battle.turnoJogador('fireball')
-    battle.turnoJogador('fireball')
-    battle.turnoJogador('fireball')
+// mapa.exibirMapa()
+// mapa.exibirLocal()
 
-}
+// mapa.mover('norte')
+// mapa.mover('norte')
 
-
-mapa.mover('norte')
+// const battle = mapa.iniciarBatalha()
 
 
-const battle2 = mapa.iniciarBatalha()
+// if (!battle.finalizada) {
 
-if (!battle2.finalizada) {
+//     battle.turnoJogador('fireball')
+//     battle.turnoJogador('fireball')
+//     battle.turnoJogador('fireball')
+//     battle.turnoJogador('fireball')
+//     battle.turnoJogador('fireball')
 
-    battle2.turnoJogador('fireball')
-    battle2.turnoJogador('fireball')
-    battle2.turnoJogador('fireball')
-    battle2.turnoJogador('fireball')
-    battle2.turnoJogador('fireball')
-    battle2.turnoJogador('fireball')
-    battle2.turnoJogador('fireball')
-    battle2.turnoJogador('fireball')
-
-}
+// }
 
 
-mapa.exibirLocal()
-
-mapa.mover('norte')
-
-mago.curar()
+// mapa.mover('norte')
 
 
-const battle3 = mapa.iniciarBatalha()
+// const battle2 = mapa.iniciarBatalha()
 
-if (!battle3.finalizada) {
+// if (!battle2.finalizada) {
 
-    battle3.turnoJogador('fireball')
-    battle3.turnoJogador('fireball')
-    battle3.turnoJogador('fireball')
-    battle3.turnoJogador('fireball')
-    battle3.turnoJogador('fireball')
-    battle3.turnoJogador('fireball')
-    battle3.turnoJogador('fireball')
-    battle3.turnoJogador('fireball')
-    battle3.turnoJogador('fireball')
-    battle3.turnoJogador('fireball')
-    battle3.turnoJogador('fireball')
-    battle3.turnoJogador('fireball')
-    battle3.turnoJogador('fireball')
+//     battle2.turnoJogador('fireball')
+//     battle2.turnoJogador('fireball')
+//     battle2.turnoJogador('fireball')
+//     battle2.turnoJogador('fireball')
+//     battle2.turnoJogador('fireball')
+//     battle2.turnoJogador('fireball')
+//     battle2.turnoJogador('fireball')
+//     battle2.turnoJogador('fireball')
 
-}
+// }
 
 
-mapa.exibirLocal()
+// mapa.exibirLocal()
+
+// mapa.mover('norte')
+
+// mago.curar()
+
+
+// const battle3 = mapa.iniciarBatalha()
+
+// if (!battle3.finalizada) {
+
+//     battle3.turnoJogador('fireball')
+//     battle3.turnoJogador('fireball')
+//     battle3.turnoJogador('fireball')
+//     battle3.turnoJogador('fireball')
+//     battle3.turnoJogador('fireball')
+//     battle3.turnoJogador('fireball')
+//     battle3.turnoJogador('fireball')
+//     battle3.turnoJogador('fireball')
+//     battle3.turnoJogador('fireball')
+//     battle3.turnoJogador('fireball')
+//     battle3.turnoJogador('fireball')
+//     battle3.turnoJogador('fireball')
+//     battle3.turnoJogador('fireball')
+
+// }
+
+
+// mapa.exibirLocal()
 
 
 
@@ -409,3 +410,7 @@ mapa.exibirLocal()
 
 
 // btnMagiaUm.addEventListener('click', lancar)
+
+
+
+

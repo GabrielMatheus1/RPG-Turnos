@@ -1,24 +1,15 @@
-// para batalha, classes e mapa
+
+
+## Teste de Mapa
+
+```javascript
 import { Mage } from "./src/Classes/herois/Mage.js";
-import { Archer } from "./src/Classes/herois/Archer.js"
 
 import { Mapa } from "./src/Mapas/Mapas.js";
 
-// para batalha e classes
-// import { Goblin } from "./src/Classes/inimigos/Goblin.js"
-// import { Drakar } from "./src/Classes/boss/Drakar.js"
-
-// para batalha
-// import { Batalha } from "./src/utils/Batalha.js";
-
-// para renderização
-// import { MovimentoMage } from './src/movimentos/herois/MoveMage.js'
-// const magoMove = new MovimentoMage()
-
-
-// // ================================
-// // Teste de Batalha
-// // ================================
+// ================================
+// Teste de Batalha
+// ================================
 
 
 const mago = new Mage({
@@ -97,315 +88,357 @@ if (!battle3.finalizada) {
 
 
 mapa.exibirLocal()
+```
+
+<hr />
 
 
 
-// // ================================
-// // Teste de Batalha
-// // ================================
+## Teste de Batalha
 
-// const mago = new Mage({
-//     name: "Melindo",
-//     classe: "Mage"
-// });
+```javascript
+import { Mage } from "./src/Classes/herois/Mage.js";
+import { Goblin } from "./src/Classes/inimigos/Goblin.js"
 
-// const monstroUm = new Goblin()
+import { Batalha } from "./src/utils/Batalha.js";
+
+// ================================
+// Teste de Batalha
+// ================================
+
+const mago = new Mage({
+    name: "Melindo",
+    classe: "Mage"
+});
+
+const monstroUm = new Goblin()
 
 
 
-// mago.exibirStatus()
-// monstroUm.exibirStatus()
+mago.exibirStatus()
+monstroUm.exibirStatus()
 
 
-// const battle = new Batalha(mago, monstroUm)
+const battle = new Batalha(mago, monstroUm)
 
 
-// if (!battle.finalizada) {
+if (!battle.finalizada) {
 
-//     battle.iniciar()
+    battle.iniciar()
     
-//     battle.turnoJogador( 'fireball' )
-//     battle.turnoJogador( 'fireball' )
-//     battle.turnoJogador( 'fireball' )
-//     battle.turnoJogador( 'fireball' )
-//     battle.turnoJogador( 'fireball' )
+    battle.turnoJogador( 'fireball' )
+    battle.turnoJogador( 'fireball' )
+    battle.turnoJogador( 'fireball' )
+    battle.turnoJogador( 'fireball' )
+    battle.turnoJogador( 'fireball' )
 
-// } else {
-//     console.log('nada')
-// }
+} else {
+    console.log('nada')
+}
+```
 
+<hr />
 
 
 
-// // ================================
-// // Teste de Classes
-// // ================================
+## Teste de Classes
 
-// const mago = new Mage({
-//     name: "Melindo",
-//     classe: "Mage"
-// });
+```javascript
+// Herois
+import { Mage } from "./src/Classes/herois/Mage.js";
+import { Archer } from "./src/Classes/herois/Archer.js"
 
-// const arqueiro = new Archer({
-//     name: "Artemora",
-//     classe: "Archer"
-// });
+// Inimigos
+import { Goblin } from "./src/Classes/inimigos/Goblin.js"
+import { Drakar } from "./src/Classes/boss/Drakar.js"
 
-// const monstroUm = new Goblin()
-// const drakar = new Drakar()
+// ================================
+// Teste de Classes
+// ================================
 
-// console.log("===========================")
-// console.log("      Status Inicial")
+const mago = new Mage({
+    name: "Melindo",
+    classe: "Mage"
+});
 
-// mago.exibirStatus();
-// arqueiro.exibirStatus()
-// monstroUm.exibirStatus()
-// drakar.exibirStatus()
+const arqueiro = new Archer({
+    name: "Artemora",
+    classe: "Archer"
+});
 
+const monstroUm = new Goblin()
+const drakar = new Drakar()
 
-// console.log("===========================")
-// console.log("    Recebendo Dano")
+console.log("===========================")
+console.log("      Status Inicial")
 
-// mago.receberDano(21);
-// arqueiro.receberDano(20)
-// monstroUm.receberDano(320)
-// drakar.receberDano(2000)
+mago.exibirStatus();
+arqueiro.exibirStatus()
+monstroUm.exibirStatus()
+drakar.exibirStatus()
 
-// console.log("===========================")
-// console.log("    Recebendo Cura")
 
-// mago.curar();
-// arqueiro.curar()
+console.log("===========================")
+console.log("    Recebendo Dano")
 
+mago.receberDano(21);
+arqueiro.receberDano(20)
+monstroUm.receberDano(320)
+drakar.receberDano(2000)
 
+console.log("===========================")
+console.log("    Recebendo Cura")
 
-// console.log("===========================")
-// console.log("        Atacando")
+mago.curar();
+arqueiro.curar()
 
-// mago.fireball(monstroUm)
-// monstroUm.ataqueSimples(mago)
-// arqueiro.flechada(monstroUm)
-// drakar.ataqueSimples(mago)
-// arqueiro.flechada(drakar)
 
 
+console.log("===========================")
+console.log("        Atacando")
 
-// console.log("===========================")
-// console.log("    Recebendo XP")
+mago.fireball(monstroUm)
+monstroUm.ataqueSimples(mago)
+arqueiro.flechada(monstroUm)
+drakar.ataqueSimples(mago)
+arqueiro.flechada(drakar)
 
-// mago.ganharXp(monstroUm.xpRecompensa);
-// mago.ganharXp(monstroUm.xpRecompensa);
-// arqueiro.ganharXp(drakar.xpRecompensa)
-// arqueiro.ganharXp(drakar.xpRecompensa)
 
 
+console.log("===========================")
+console.log("    Recebendo XP")
 
-// // ================================
-// // Teste de Renderização do Game
-// // ================================
+mago.ganharXp(monstroUm.xpRecompensa);
+mago.ganharXp(monstroUm.xpRecompensa);
+arqueiro.ganharXp(drakar.xpRecompensa)
+arqueiro.ganharXp(drakar.xpRecompensa)
+```
 
-// let canva = document.querySelector('canvas')
-// let ctx = canva.getContext('2d')
+<hr />
 
-// const teclasPressionadas = {};
 
-// window.addEventListener("keydown", (event) => {
-//     const tecla = event.key.toLowerCase();
 
-//     if (tecla === "j") {
-//         if (!event.repeat && !magoMove.atacando) {
-//             teclasPressionadas.j = true;
-//         }
-//         return;
-//     }
+## Teste de Renderização do Game
 
-//     teclasPressionadas[tecla] = true;
+```javascript
+import { MovimentoMage } from './src/movimentos/herois/MoveMage.js'
+const magoMove = new MovimentoMage()
 
-//     if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.key)) {
-//         event.preventDefault();
-//     }
-// });
+// ================================
+// Teste de Renderização do Game
+// ================================
 
-// window.addEventListener("keyup", (event) => {
-//     const tecla = event.key.toLowerCase();
+let canva = document.querySelector('canvas')
+let ctx = canva.getContext('2d')
 
-//     if (tecla === "j") {
-//         return;
-//     }
+const teclasPressionadas = {};
 
-//     teclasPressionadas[tecla] = false;
-// });
 
-// const circuloMagia = new Image()
-// circuloMagia.src = "./src/Imagens/herois/Magia/poder.png"
 
+window.addEventListener("keydown", (event) => {
+    const tecla = event.key.toLowerCase();
 
-// let jogador = {
-//     x: 100,
-//     y: 100,
+    if (tecla === "j") {
+        if (!event.repeat && !magoMove.atacando) {
+            teclasPressionadas.j = true;
+        }
+        return;
+    }
 
-//     width: 40,
-//     height: 40,
+    teclasPressionadas[tecla] = true;
 
-//     acao: "parado",
-//     img: magoMove.parado()
-// }
+    if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.key)) {
+        event.preventDefault();
+    }
+});
 
 
+window.addEventListener("keyup", (event) => {
+    const tecla = event.key.toLowerCase();
 
+    if (tecla === "j") {
+        return;
+    }
 
+    teclasPressionadas[tecla] = false;
+});
 
 
-// let frameIndex = 0;
-// let contador = 0;
-// let atraso = 8;
-// let magiaAtiva = false
-// let inicioMagia = 0
-// let tempoDaMagia
-// const duracaoMagia = 5000
-// const tamanhoInicialCirculo = 0
-// const tamanhoMaximoCirculo = 100
+const circuloMagia = new Image()
+circuloMagia.src = "./src/Imagens/herois/Magia/poder.png"
 
-// function calcularTamanhoCirculo(progresso) {
-//     if (progresso < 0.3) {
-//         return tamanhoInicialCirculo + (tamanhoMaximoCirculo - tamanhoInicialCirculo) * (progresso / 0.3)
-//     }
 
-//     if (progresso < 0.75) {
-//         return tamanhoMaximoCirculo
-//     }
 
-//     return tamanhoMaximoCirculo - (tamanhoMaximoCirculo - tamanhoInicialCirculo) * ((progresso - 0.75) / 0.25)
-// }
-
-// function desenharCirculoMagia() {
-//     if (!circuloMagia.complete) {
-//         return
-//     }
-
-//     let tamanho = tamanhoInicialCirculo
-//     let opacidade = 0.55
-//     let rotacao = performance.now() / 1000
-//     const centroX = jogador.x + jogador.width / 2
-//     const centroY = jogador.y + jogador.height / 2
 
-//     if (magiaAtiva) {
-//         const tempoAtual = performance.now()
-//         const progresso = Math.min((tempoAtual - inicioMagia) / duracaoMagia, 1)
+let jogador = {
+    x: 100,
+    y: 100,
 
-//         if (progresso >= 1) {
-//             magiaAtiva = false
-//         } else {
-//             tamanho = calcularTamanhoCirculo(progresso)
-//             opacidade = progresso > 0.85 ? 0.55 + ((1 - progresso) / 0.15) * 0.45 : 1
-//             rotacao = progresso * Math.PI * 4
-//         }
-//     }
+    width: 40,
+    height: 40,
 
-//     ctx.save()
-//     ctx.globalAlpha = opacidade
-//     ctx.translate(centroX, centroY)
-//     ctx.rotate(rotacao)
-//     ctx.drawImage(
-//         circuloMagia,
-//         -tamanho / 2,
-//         -tamanho / 2,
-//         tamanho,
-//         tamanho
-//     )
-//     ctx.restore()
-// }
+    acao: "parado",
+    img: magoMove.parado()
+}
 
-// function desenharJogador() {
 
-//     const estaAndando = magoMove.mover(jogador, teclasPressionadas, canva);
-//     const estaAtacando = magoMove.atacando
 
 
-//     const proximaAcao = estaAtacando ? "atacar" : estaAndando ? "andar" : "parado";
+let frameIndex = 0;
+let contador = 0;
+let atraso = 8;
+let magiaAtiva = false
+let inicioMagia = 0
+let tempoDaMagia
+const duracaoMagia = 5000
+const tamanhoInicialCirculo = 0
+const tamanhoMaximoCirculo = 100
 
 
-//     if (jogador.acao !== proximaAcao) {
+function calcularTamanhoCirculo(progresso) {
+    if (progresso < 0.3) {
+        return tamanhoInicialCirculo + (tamanhoMaximoCirculo - tamanhoInicialCirculo) * (progresso / 0.3)
+    }
 
-//         jogador.acao = proximaAcao;
+    if (progresso < 0.75) {
+        return tamanhoMaximoCirculo
+    }
 
-//         if (proximaAcao === "atacar") {
-//             jogador.img = magoMove.atacar()
-//         } else {
-//             jogador.img = estaAndando ? magoMove.andar() : magoMove.parado();
-//         }
+    return tamanhoMaximoCirculo - (tamanhoMaximoCirculo - tamanhoInicialCirculo) * ((progresso - 0.75) / 0.25)
+}
 
+function desenharCirculoMagia() {
+    if (!circuloMagia.complete) {
+        return
+    }
 
-//         frameIndex = 0; 
-//         contador = 0;
-//     }
+    let tamanho = tamanhoInicialCirculo
+    let opacidade = 0.55
+    let rotacao = performance.now() / 1000
+    const centroX = jogador.x + jogador.width / 2
+    const centroY = jogador.y + jogador.height / 2
 
-//     ctx.clearRect(0, 0, canva.width, canva.height);
-//     desenharCirculoMagia()
+    if (magiaAtiva) {
+        const tempoAtual = performance.now()
+        const progresso = Math.min((tempoAtual - inicioMagia) / duracaoMagia, 1)
 
-//     const frameAtual = jogador.img[frameIndex];
+        if (progresso >= 1) {
+            magiaAtiva = false
+        } else {
+            tamanho = calcularTamanhoCirculo(progresso)
+            opacidade = progresso > 0.85 ? 0.55 + ((1 - progresso) / 0.15) * 0.45 : 1
+            rotacao = progresso * Math.PI * 4
+        }
+    }
 
+    ctx.save()
+    ctx.globalAlpha = opacidade
+    ctx.translate(centroX, centroY)
+    ctx.rotate(rotacao)
+    ctx.drawImage(
+        circuloMagia,
+        -tamanho / 2,
+        -tamanho / 2,
+        tamanho,
+        tamanho
+    )
+    ctx.restore()
+}
 
-//     if (magoMove.direcao === "esquerda") {
-//         ctx.save();
-//         ctx.scale(-1, 1);
-//         ctx.drawImage(
-//             frameAtual,
-//             -jogador.x - jogador.width,
-//             jogador.y,
-//             jogador.width,
-//             jogador.height
-//         );
-//         ctx.restore();
-//     } else {
-//         ctx.drawImage(
-//             frameAtual,
-//             jogador.x,
-//             jogador.y,
-//             jogador.width,
-//             jogador.height
-//         );
-//     }
 
-//     contador++;
+function desenharJogador() {
 
-//     if (contador >= atraso) {
-//         if (jogador.acao === "atacar" && frameIndex === jogador.img.length - 1) {
-//             teclasPressionadas.j = false;
-//             magoMove.atacando = false;
-//             jogador.acao = "";
-//             frameIndex = 0;
-//             contador = 0;
-//             requestAnimationFrame(desenharJogador);
-//             return;
-//         }
+    const estaAndando = magoMove.mover(jogador, teclasPressionadas, canva);
+    const estaAtacando = magoMove.atacando
 
-//         frameIndex = (frameIndex + 1) % jogador.img.length;
-//         contador = 0;
-//     }
 
-//     requestAnimationFrame(desenharJogador);
-// }
+    const proximaAcao = estaAtacando ? "atacar" : estaAndando ? "andar" : "parado";
 
-// desenharJogador();
 
+    if (jogador.acao !== proximaAcao) {
 
+        jogador.acao = proximaAcao;
 
-// const btnMagiaUm = document.querySelector('#magiaUm')
+        if (proximaAcao === "atacar") {
+            jogador.img = magoMove.atacar()
+        } else {
+            jogador.img = estaAndando ? magoMove.andar() : magoMove.parado();
+        }
 
-// function lancar() {
 
-//     clearTimeout(tempoDaMagia)
-//     magiaAtiva = true
-//     inicioMagia = performance.now()
+        frameIndex = 0; 
+        contador = 0;
+    }
 
-//     tempoDaMagia = setTimeout(parar, duracaoMagia)
+    ctx.clearRect(0, 0, canva.width, canva.height);
+    desenharCirculoMagia()
 
-// }
+    const frameAtual = jogador.img[frameIndex];
 
-// function parar() {
-//     magiaAtiva = false
-// }
 
+    if (magoMove.direcao === "esquerda") {
+        ctx.save();
+        ctx.scale(-1, 1);
+        ctx.drawImage(
+            frameAtual,
+            -jogador.x - jogador.width,
+            jogador.y,
+            jogador.width,
+            jogador.height
+        );
+        ctx.restore();
+    } else {
+        ctx.drawImage(
+            frameAtual,
+            jogador.x,
+            jogador.y,
+            jogador.width,
+            jogador.height
+        );
+    }
 
-// btnMagiaUm.addEventListener('click', lancar)
+    contador++;
+
+    if (contador >= atraso) {
+        if (jogador.acao === "atacar" && frameIndex === jogador.img.length - 1) {
+            teclasPressionadas.j = false;
+            magoMove.atacando = false;
+            jogador.acao = "";
+            frameIndex = 0;
+            contador = 0;
+            requestAnimationFrame(desenharJogador);
+            return;
+        }
+
+        frameIndex = (frameIndex + 1) % jogador.img.length;
+        contador = 0;
+    }
+
+    requestAnimationFrame(desenharJogador);
+}
+
+desenharJogador();
+
+
+
+const btnMagiaUm = document.querySelector('#magiaUm')
+
+function lancar() {
+
+    clearTimeout(tempoDaMagia)
+    magiaAtiva = true
+    inicioMagia = performance.now()
+
+    tempoDaMagia = setTimeout(parar, duracaoMagia)
+
+}
+
+
+function parar() {
+    magiaAtiva = false
+}
+
+
+
+btnMagiaUm.addEventListener('click', lancar)
+```
