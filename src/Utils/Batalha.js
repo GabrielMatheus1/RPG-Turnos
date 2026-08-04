@@ -39,9 +39,6 @@ export class Batalha {
 
     exibirStatus() {
 
-        this.jogador.exibirStatus()
-        this.inimigo.exibirStatus()
-
         console.log("\n------------- STATUS -------------");
         console.log(`${this.jogador.nome}: ${this.jogador.vida}/${this.jogador.hpMax}`);
         console.log(`${this.inimigo.nome}: ${this.inimigo.vida}/${this.inimigo.hpMax}`);
