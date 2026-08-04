@@ -1,8 +1,12 @@
 import { Mage } from '../Classes/herois/Mage.js';
 
 import { Goblin } from '../Classes/inimigos/Goblin.js';
+import { Esqueleto } from '../Classes/inimigos/Esqueleto.js';
+import { Drakar } from '../Classes/boss/Drakar.js';
 
 import { Batalha } from '../Utils/Batalha.js'
+
+
 
 export class Mapa {
 
@@ -26,8 +30,7 @@ export class Mapa {
 
             floresta: {
                 nome: "Floresta Sombria",
-                descricao:
-                    "Uma floresta escura cheia de criaturas.",
+                descricao: "Uma floresta escura cheia de criaturas.",
 
                 norte: "caverna",
                 sul: "vila",
@@ -35,64 +38,36 @@ export class Mapa {
                 oeste: null,
 
                 inimigo: new Goblin({
-                    name: "Goblin da Floresta",
-                    tipo: "Goblin",
-                    nivel: 1,
-                    vida: 50,
-                    hp: 50,
-                    ataque: 12,
-                    defesa: 3,
-                    xpRecompensa: 160
+                    nivel: 1
                 })
+            },
+
+            caverna: {
+                nome: "Caverna Antiga",
+
+                descricao: "Uma caverna fria cheia de esqueletos.",
+
+                norte: "castelo",
+                sul: "floresta",
+                leste: null,
+                oeste: null,
+
+                inimigo: new Esqueleto({
+                    nivel: 10
+                })
+            },
+
+            castelo: {
+                nome: "Castelo do Dragão",
+                descricao: "O covil de Drakar, o Dragão Ancestral.",
+
+                norte: null,
+                sul: "caverna",
+                leste: null,
+                oeste: null,
+
+                inimigo: new Drakar()
             }
-
-            // caverna: {
-            //     nome: "Caverna Antiga",
-
-            //     descricao:
-            //         "Uma caverna fria cheia de esqueletos.",
-
-            //     norte: "castelo",
-            //     sul: "floresta",
-            //     leste: null,
-            //     oeste: null,
-
-            //     inimigo: new Monstro({
-            //         name: "Esqueleto Guerreiro",
-            //         tipo: "Esqueleto",
-            //         nivel: 3,
-            //         vida: 100,
-            //         hp: 100,
-            //         ataque: 20,
-            //         defesa: 6,
-            //         xpRecompensa: 150
-            //     })
-            // },
-
-            // castelo: {
-            //     nome: "Castelo do Dragão",
-
-            //     descricao:
-            //         "O covil de Drakar, o Dragão Ancestral.",
-
-            //     norte: null,
-            //     sul: "caverna",
-            //     leste: null,
-            //     oeste: null,
-
-            //     inimigo: new DragaoBoss({
-            //         name: "Drakar, o Dragão Ancestral",
-            //         tipo: "Dragão",
-            //         nivel: 10,
-            //         vida: 500,
-            //         hp: 500,
-            //         ataque: 40,
-            //         defesa: 10,
-            //         xpRecompensa: 1000
-            //     }, 60)
-            // }
-
-
 
 
         };
@@ -247,10 +222,7 @@ Local atual: ${localAtual.nome}
 
         if (this.posicaoAtual !== "vila") {
 
-            console.log(
-                "\nVocê só pode descansar na Vila dos Magos."
-            );
-
+            console.log( "\nVocê só pode descansar na Vila dos Magos."  );
             return;
         }
 
@@ -261,37 +233,4 @@ Local atual: ${localAtual.nome}
 
 
 }
-
-
-const mago = new Mage({
-    name: "Melindo",
-    classe: "Mage"
-});
-
-
-const mapa = new Mapa(mago)
-
-mapa.exibirMapa()
-mapa.exibirLocal()
-
-mapa.mover('norte')
-mapa.mover('norte')
-
-const battle = mapa.iniciarBatalha()
-
-
-if (!battle.finalizada) {
-
-    battle.turnoJogador('fireball')
-    battle.turnoJogador('fireball')
-    battle.turnoJogador('fireball')
-    battle.turnoJogador('fireball')
-    battle.turnoJogador('fireball')
-
-}
-
-
-mapa.mover('norte')
-
-
 

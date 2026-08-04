@@ -1,18 +1,102 @@
-// para batalha e classes
+// para batalha, classes e mapa
 import { Mage } from "./src/Classes/herois/Mage.js";
 import { Archer } from "./src/Classes/herois/Archer.js"
 
+import { Mapa } from "./src/Mapas/Mapas.js";
+
 // para batalha e classes
-import { Goblin } from "./src/Classes/inimigos/Goblin.js"
-import { Drakar } from "./src/Classes/boss/Drakar.js"
+// import { Goblin } from "./src/Classes/inimigos/Goblin.js"
+// import { Drakar } from "./src/Classes/boss/Drakar.js"
 
 // para batalha
-import { Batalha } from "./src/utils/Batalha.js";
+// import { Batalha } from "./src/utils/Batalha.js";
 
 // para renderização
 // import { MovimentoMage } from './src/movimentos/herois/MoveMage.js'
 // const magoMove = new MovimentoMage()
 
+
+// // ================================
+// // Teste de Batalha
+// // ================================
+
+
+const mago = new Mage({
+    name: "Melindo",
+    classe: "Mage"
+});
+
+
+const mapa = new Mapa(mago)
+
+mapa.exibirMapa()
+mapa.exibirLocal()
+
+mapa.mover('norte')
+mapa.mover('norte')
+
+const battle = mapa.iniciarBatalha()
+
+
+if (!battle.finalizada) {
+
+    battle.turnoJogador('fireball')
+    battle.turnoJogador('fireball')
+    battle.turnoJogador('fireball')
+    battle.turnoJogador('fireball')
+    battle.turnoJogador('fireball')
+
+}
+
+
+mapa.mover('norte')
+
+
+const battle2 = mapa.iniciarBatalha()
+
+if (!battle2.finalizada) {
+
+    battle2.turnoJogador('fireball')
+    battle2.turnoJogador('fireball')
+    battle2.turnoJogador('fireball')
+    battle2.turnoJogador('fireball')
+    battle2.turnoJogador('fireball')
+    battle2.turnoJogador('fireball')
+    battle2.turnoJogador('fireball')
+    battle2.turnoJogador('fireball')
+
+}
+
+
+mapa.exibirLocal()
+
+mapa.mover('norte')
+
+mago.curar()
+
+
+const battle3 = mapa.iniciarBatalha()
+
+if (!battle3.finalizada) {
+
+    battle3.turnoJogador('fireball')
+    battle3.turnoJogador('fireball')
+    battle3.turnoJogador('fireball')
+    battle3.turnoJogador('fireball')
+    battle3.turnoJogador('fireball')
+    battle3.turnoJogador('fireball')
+    battle3.turnoJogador('fireball')
+    battle3.turnoJogador('fireball')
+    battle3.turnoJogador('fireball')
+    battle3.turnoJogador('fireball')
+    battle3.turnoJogador('fireball')
+    battle3.turnoJogador('fireball')
+    battle3.turnoJogador('fireball')
+
+}
+
+
+mapa.exibirLocal()
 
 
 

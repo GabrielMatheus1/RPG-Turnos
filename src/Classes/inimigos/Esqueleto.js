@@ -1,31 +1,33 @@
-import { Boss } from "../Personagens.js"
+import { Monstros } from "../Personagens.js"
 
-export class Drakar extends Boss {
-   
+
+export class  Esqueleto extends Monstros {
+  
   constructor(obj) {
-    super(obj)
+    super(obj) 
 
-    this.nome = "Drakar";
-    this.ataque = 80;
+    this.nome = 'Esqueleto';
+    this.tipo = 'Esqueleto Guerreiro'
+    this.ataque = 45;
     this.defesa = 15;
-    this.tipo = "Dragao Ancestral";
-    this.vida = 2000;
-    this.hpMax = 2000;
-    this.xpRecompensa = 1000
-    this.nivel = 10
+    this.vida =  550;
+    this.hpMax = 550;
+    this.xpRecompensa = 140;
+    this.nivel = obj.nivel
   }
 
-    ataqueSimples(alvo) {
-    
-            if (!this.estaVivo()) {
-                console.log(  `${this.nome} está derrotado e não pode atacar.`   );
-                return 0;
-            }
-    
-            console.log( `\n${this.nome} atacou ${alvo.nome}!`  );
-    
-            return alvo.receberDano(this.ataque);
+
+  ataqueSimples(alvo) {
+
+        if (!this.estaVivo()) {
+            console.log(  `${this.nome} está derrotado e não pode atacar.`   );
+            return 0;
         }
+
+        console.log( `\n${this.nome} atacou ${alvo.nome}!`  );
+
+        return alvo.receberDano(this.ataque);
+    }
   
 
     exibirStatus() {
@@ -51,6 +53,7 @@ export class Drakar extends Boss {
             Xp: this.xpRecompensa
       }
     }
-  
+
+
   
 }

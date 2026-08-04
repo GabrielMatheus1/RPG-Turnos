@@ -153,7 +153,7 @@ export class Personagem {
 export class Monstros {
 
     constructor(obj) {
-        this.nivel = 1;
+        this.nivel = obj.nivel;
     }
 
   

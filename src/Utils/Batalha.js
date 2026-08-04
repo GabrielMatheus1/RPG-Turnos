@@ -39,9 +39,12 @@ export class Batalha {
 
     exibirStatus() {
 
+        this.jogador.exibirStatus()
+        this.inimigo.exibirStatus()
+
         console.log("\n------------- STATUS -------------");
-        console.log( `${this.jogador.nome}: ${this.jogador.vida}/${this.jogador.hpMax}` );
-        console.log( `${this.inimigo.nome}: ${this.inimigo.vida}/${this.inimigo.hpMax}` );
+        console.log(`${this.jogador.nome}: ${this.jogador.vida}/${this.jogador.hpMax}`);
+        console.log(`${this.inimigo.nome}: ${this.inimigo.vida}/${this.inimigo.hpMax}`);
         console.log("----------------------------------");
 
         console.log("\n================================\n");
@@ -51,8 +54,10 @@ export class Batalha {
 
     turnoJogador(ataque) {
 
+
+
         if (this.finalizada) {
-            console.log(  "A batalha já terminou." );
+            console.log("A batalha já terminou.");
             return;
         }
 
@@ -61,8 +66,8 @@ export class Batalha {
             return;
         }
 
-        console.log( `\n===== TURNO ${this.turno} =====` );
-        console.log( `Turno de ${this.jogador.nome}`  );
+        console.log(`\n===== TURNO ${this.turno} =====`);
+        console.log(`Turno de ${this.jogador.nome}`);
 
         // ataques de magos
         switch (ataque.toLowerCase()) {
@@ -71,10 +76,10 @@ export class Batalha {
                 this.jogador.fireball(this.inimigo);
                 break;
 
-        
+
             default:
-                console.log( `\nAtaque "${ataque}" inválido.` );
-                console.log( "Ataque disponível: fireball. \n" );
+                console.log(`\nAtaque "${ataque}" inválido.`);
+                console.log("Ataque disponível: fireball. \n");
                 return;
         }
 
@@ -94,14 +99,14 @@ export class Batalha {
             return;
         }
 
-        console.log( `\nTurno de ${this.inimigo.nome}`  );
+        console.log(`\nTurno de ${this.inimigo.nome}`);
 
         // ataque de goblin
-        if ( this.inimigo instanceof Goblin ) {
+        if (this.inimigo instanceof Goblin) {
 
-            this.inimigo.ataqueSimples(  this.jogador );
+            this.inimigo.ataqueSimples(this.jogador);
 
-        } 
+        }
 
         else {
             console.log(`\n ${this.inimigo.nome} não tem ataques configurado`)
@@ -132,11 +137,11 @@ export class Batalha {
 
         if (this.jogador.estaVivo()) {
 
-            console.log(  `${this.jogador.nome} venceu a batalha!`  );
-            this.jogador.ganharXp( this.inimigo.xpRecompensa  );
+            console.log(`${this.jogador.nome} venceu a batalha!`);
+            this.jogador.ganharXp(this.inimigo.xpRecompensa);
 
         } else {
-            console.log( `${this.jogador.nome} foi derrotado por ${this.inimigo.nome}.`  );
+            console.log(`${this.jogador.nome} foi derrotado por ${this.inimigo.nome}.`);
         }
 
     }
