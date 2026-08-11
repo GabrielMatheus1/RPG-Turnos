@@ -15,48 +15,22 @@ const magoMove = new MovimentoMage()
 // ================================= //
 
 import { RenderMapa } from "./src/Mapas/Mapas.js";
-
 import { floresta } from "./src/Mapas/world-1/Fases-1.js";
 
 
-// ================================= //
-// ============ CANVAS ============= //
-// ================================= //
 
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 
 
-// ================================= //
-// ======= CRIANDO RENDER MAPA ===== //
-// ================================= //
-
 const renderMapa = new RenderMapa(ctx);
-
-
-// ================================= //
-// ========= MAPA INICIAL ========== //
-// ================================= //
 
 renderMapa.definirMapa(floresta);
 
 
-// ================================= //
-// ======= TAMANHO DO CANVAS ======= //
-// ================================= //
-
-canvas.width =
-    floresta.mapa[0].length *
-    floresta.largura;
+canvas.width = floresta.mapa[0].length * floresta.largura;
+canvas.height = floresta.mapa.length * floresta.altura;
 
 
-canvas.height =
-    floresta.mapa.length *
-    floresta.altura;
-
-
-// ================================= //
-// ========= RENDERIZANDO ========== //
-// ================================= //
 
 renderMapa.renderizar();
