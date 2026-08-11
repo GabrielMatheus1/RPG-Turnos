@@ -222,7 +222,7 @@ Local atual: ${localAtual.nome}
 
         if (this.posicaoAtual !== "vila") {
 
-            console.log( "\nVocê só pode descansar na Vila dos Magos."  );
+            console.log("\nVocê só pode descansar na Vila dos Magos.");
             return;
         }
 
@@ -234,3 +234,136 @@ Local atual: ${localAtual.nome}
 
 }
 
+
+
+
+
+
+
+
+export class RenderMapa {
+
+    constructor(ctx) {
+
+        this.ctx = ctx;
+        this.mapaAtual = null;
+
+    }
+
+
+    // ================================= //
+    // ======== DEFINIR MAPA =========== //
+    // ================================= //
+
+    definirMapa(mapa) {
+
+        this.mapaAtual = mapa;
+
+    }
+
+
+    // ================================= //
+    // ========= RENDERIZAR ============ //
+    // ================================= //
+
+    renderizar() {
+
+        if (!this.mapaAtual) {
+            console.log("Nenhum mapa foi definido.");
+            return;
+        }
+
+
+        const matriz = this.mapaAtual.mapa;
+
+        const largura = this.mapaAtual.largura;
+        const altura = this.mapaAtual.altura;
+
+
+        for (let linha = 0; linha < matriz.length; linha++) {
+
+            for (
+                let coluna = 0;
+                coluna < matriz[linha].length;
+                coluna++
+            ) {
+
+                const bloco = matriz[linha][coluna];
+
+
+                const x = coluna * largura;
+                const y = linha * altura;
+
+
+                // ============================= //
+                // ========== CAMINHO ========== //
+                // ============================= //
+
+                if (bloco === 0) {
+
+                    this.ctx.fillStyle = "green";
+
+                    this.ctx.fillRect(
+                        x,
+                        y,
+                        largura,
+                        altura
+                    );
+
+                }
+
+
+                // ============================= //
+                // ========== PAREDE =========== //
+                // ============================= //
+
+                if (bloco === 1) {
+
+                    this.ctx.fillStyle = "brown";
+
+                    this.ctx.fillRect(
+                        x,
+                        y,
+                        largura,
+                        altura
+                    );
+
+                }
+
+
+                // ============================= //
+                // =========== SAÍDA =========== //
+                // ============================= //
+
+                if (bloco === 2) {
+
+                    this.ctx.fillStyle = "blue";
+
+                    this.ctx.fillRect(
+                        x,
+                        y,
+                        largura,
+                        altura
+                    );
+
+                }
+
+            }
+
+        }
+
+    }
+
+
+    // ================================= //
+    // ======== TROCAR MAPA ============ //
+    // ================================= //
+
+    trocarMapa(novoMapa) {
+
+        this.mapaAtual = novoMapa;
+        console.log( `Mapa alterado para: ${novoMapa.nome}` );
+
+    }
+
+}
