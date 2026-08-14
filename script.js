@@ -109,6 +109,8 @@ document.querySelectorAll("[data-key]").forEach((botao) => {
 });
 
 window.addEventListener("blur", limparControles);
+window.addEventListener("resize", atualizarCamera);
+window.addEventListener("orientationchange", atualizarCamera);
 
 document.addEventListener("visibilitychange", () => {
     if (document.hidden) {

@@ -6,39 +6,61 @@
 
 }
 
+html {
+    width: 100%;
+    height: 100%;
+    background: #1f2933;
+    overscroll-behavior: none;
+}
+
 body {
-    min-height: 100vh;
+    width: 100%;
+    min-height: 100svh;
     display: grid;
     place-items: center;
     background: #1f2933;
     overflow: hidden;
+    touch-action: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.game-screen {
+    width: 100%;
+    display: grid;
+    place-items: center;
+    padding: 12px;
 }
 
 canvas {
-    width: min(calc(100vw - 24px), 800px);
+    width: min(calc(100vw - 24px), 800px, calc((100svh - 24px) * 4 / 3));
     border: 2px solid #111827;
     height: auto;
     display: block;
     background-color: #77b86c;
     image-rendering: pixelated;
+    touch-action: none;
 }
 
 .mobile-controls {
     position: fixed;
-    left: 18px;
-    bottom: 18px;
+    left: 50%;
+    bottom: max(18px, env(safe-area-inset-bottom));
     z-index: 10;
     display: none;
-    grid-template-columns: repeat(3, 56px);
-    grid-template-rows: repeat(3, 56px);
-    gap: 8px;
+    grid-template-columns: repeat(3, var(--control-size));
+    grid-template-rows: repeat(3, var(--control-size));
+    gap: var(--control-gap);
+    transform: translateX(-50%);
     touch-action: none;
     user-select: none;
+    --control-size: clamp(54px, 15vw, 68px);
+    --control-gap: clamp(6px, 2vw, 10px);
 }
 
 .control-button {
-    width: 56px;
-    height: 56px;
+    width: var(--control-size);
+    height: var(--control-size);
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 50%;
     color: #f8fafc;
@@ -87,5 +109,32 @@ canvas {
 
     .mobile-controls {
         display: grid;
+    }
+
+    canvas {
+        width: min(
+            calc(100vw - 24px),
+            calc((100svh - 240px - env(safe-area-inset-bottom)) * 4 / 3)
+        );
+    }
+}
+
+@media (hover: none) and (orientation: landscape), (max-width: 768px) and (orientation: landscape) {
+    body {
+        place-items: center;
+        padding-top: 0;
+    }
+
+    .game-screen {
+        padding: 12px 12px 12px max(220px, calc(env(safe-area-inset-left) + 220px));
+    }
+
+    canvas {
+        width: min(100%, calc(100svh * 4 / 3));
+    }
+
+    .mobile-controls {
+        left: max(18px, env(safe-area-inset-left));
+        transform: none;
     }
 }
