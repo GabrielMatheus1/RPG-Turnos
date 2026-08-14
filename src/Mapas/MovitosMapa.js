@@ -1,6 +1,6 @@
 export class MovimentoMapa {
 
-    constructor(jogador, velocidade = 4) {
+    constructor(jogador, velocidade = 10) {
 
         this.jogador = jogador;
         this.velocidade = velocidade;

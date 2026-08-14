@@ -1,6 +1,21 @@
 import { Mage } from "./src/Classes/herois/Mage.js";
 import { MovimentoMage } from "./src/movimentos/herois/MoveMage.js";
 import { floresta } from "./src/Mapas/world-1/Fases-1.js";
+import { cavernaCristalina } from "./src/Mapas/world-1/Fases-2.js";
+import { pantanoProfundo } from "./src/Mapas/world-1/Fases-3.js";
+import { fortalezaAntiga } from "./src/Mapas/world-1/Fases-4.js";
+import { santuarioCentral } from "./src/Mapas/world-1/Fases-5.js";
+
+const fases = [
+    floresta,
+    cavernaCristalina,
+    pantanoProfundo,
+    fortalezaAntiga,
+    santuarioCentral
+];
+
+let faseAtualIndex = 0;
+let mapaAtual = fases[faseAtualIndex];
 
 // ================================
 // Canvas
@@ -9,14 +24,11 @@ import { floresta } from "./src/Mapas/world-1/Fases-1.js";
 const canvas = document.querySelector("#game");
 const ctx = canvas.getContext("2d");
 
-const larguraMapa = floresta.mapa[0].length * floresta.largura;
-const alturaMapa = floresta.mapa.length * floresta.altura;
-
 const camera = {
     x: 0,
     y: 0,
-    width: Math.min(640, larguraMapa),
-    height: Math.min(480, alturaMapa)
+    width: Math.min(640, obterLarguraMapa()),
+    height: Math.min(480, obterAlturaMapa())
 };
 
 canvas.width = camera.width;
@@ -85,13 +97,15 @@ function atualizar() {
     const yAnterior = jogador.y;
 
     const estaAndando = movimentoMage.mover(jogador, teclasPressionadas, {
-        width: larguraMapa,
-        height: alturaMapa
+        width: obterLarguraMapa(),
+        height: obterAlturaMapa()
     });
 
     if (!podeOcupar(jogador.x, jogador.y)) {
         jogador.x = xAnterior;
         jogador.y = yAnterior;
+    } else {
+        verificarSaida();
     }
 
     atualizarAnimacao(estaAndando);
@@ -108,18 +122,50 @@ function atualizarCamera() {
     camera.x = limitar(
         centroJogadorX - camera.width / 2,
         0,
-        larguraMapa - camera.width
+        obterLarguraMapa() - camera.width
     );
 
     camera.y = limitar(
         centroJogadorY - camera.height / 2,
         0,
-        alturaMapa - camera.height
+        obterAlturaMapa() - camera.height
     );
 }
 
 function limitar(valor, minimo, maximo) {
+    if (maximo < minimo) {
+        return minimo;
+    }
+
     return Math.min(Math.max(valor, minimo), maximo);
+}
+
+function obterLarguraMapa() {
+    return mapaAtual.mapa[0].length * mapaAtual.largura;
+}
+
+function obterAlturaMapa() {
+    return mapaAtual.mapa.length * mapaAtual.altura;
+}
+
+function verificarSaida() {
+    if (obterTileDoJogador() !== 2 || faseAtualIndex >= fases.length - 1) {
+        return;
+    }
+
+    trocarFase(faseAtualIndex + 1);
+}
+
+function trocarFase(novoIndex) {
+    faseAtualIndex = novoIndex;
+    mapaAtual = fases[faseAtualIndex];
+
+    const novoSpawn = encontrarTile(3);
+
+    jogador.x = novoSpawn.x;
+    jogador.y = novoSpawn.y;
+    camera.x = 0;
+    camera.y = 0;
 }
 
 function atualizarAnimacao(estaAndando) {
@@ -159,17 +205,29 @@ function desenhar() {
 }
 
 function desenharMapa() {
-    for (let linha = 0; linha < floresta.mapa.length; linha++) {
-        for (let coluna = 0; coluna < floresta.mapa[linha].length; coluna++) {
-            const bloco = floresta.mapa[linha][coluna];
-            const x = coluna * floresta.largura;
-            const y = linha * floresta.altura;
+    const colunaInicial = Math.max(0, Math.floor(camera.x / mapaAtual.largura));
+    const colunaFinal = Math.min(
+        mapaAtual.mapa[0].length,
+        Math.ceil((camera.x + camera.width) / mapaAtual.largura) + 1
+    );
+
+    const linhaInicial = Math.max(0, Math.floor(camera.y / mapaAtual.altura));
+    const linhaFinal = Math.min(
+        mapaAtual.mapa.length,
+        Math.ceil((camera.y + camera.height) / mapaAtual.altura) + 1
+    );
+
+    for (let linha = linhaInicial; linha < linhaFinal; linha++) {
+        for (let coluna = colunaInicial; coluna < colunaFinal; coluna++) {
+            const bloco = mapaAtual.mapa[linha][coluna];
+            const x = coluna * mapaAtual.largura;
+            const y = linha * mapaAtual.altura;
 
             ctx.fillStyle = corDoBloco(bloco);
-            ctx.fillRect(x, y, floresta.largura, floresta.altura);
+            ctx.fillRect(x, y, mapaAtual.largura, mapaAtual.altura);
 
             ctx.strokeStyle = "rgba(0, 0, 0, 0.08)";
-            ctx.strokeRect(x, y, floresta.largura, floresta.altura);
+            ctx.strokeRect(x, y, mapaAtual.largura, mapaAtual.altura);
         }
     }
 }
@@ -221,30 +279,39 @@ function podeOcupar(x, y) {
     ];
 
     return pontos.every((ponto) => {
-        const coluna = Math.floor(ponto.x / floresta.largura);
-        const linha = Math.floor(ponto.y / floresta.altura);
+        const coluna = Math.floor(ponto.x / mapaAtual.largura);
+        const linha = Math.floor(ponto.y / mapaAtual.altura);
 
-        if (!floresta.mapa[linha] || floresta.mapa[linha][coluna] === undefined) {
+        if (!mapaAtual.mapa[linha] || mapaAtual.mapa[linha][coluna] === undefined) {
             return false;
         }
 
-        return floresta.mapa[linha][coluna] !== 1;
+        return mapaAtual.mapa[linha][coluna] !== 1;
     });
 }
 
 function encontrarTile(tipo) {
-    for (let linha = 0; linha < floresta.mapa.length; linha++) {
-        for (let coluna = 0; coluna < floresta.mapa[linha].length; coluna++) {
-            if (floresta.mapa[linha][coluna] === tipo) {
+    for (let linha = 0; linha < mapaAtual.mapa.length; linha++) {
+        for (let coluna = 0; coluna < mapaAtual.mapa[linha].length; coluna++) {
+            if (mapaAtual.mapa[linha][coluna] === tipo) {
                 return {
-                    x: coluna * floresta.largura,
-                    y: linha * floresta.altura
+                    x: coluna * mapaAtual.largura,
+                    y: linha * mapaAtual.altura
                 };
             }
         }
     }
 
     return { x: 0, y: 0 };
+}
+
+function obterTileDoJogador() {
+    const centroX = jogador.x + jogador.width / 2;
+    const centroY = jogador.y + jogador.height / 2;
+    const coluna = Math.floor(centroX / mapaAtual.largura);
+    const linha = Math.floor(centroY / mapaAtual.altura);
+
+    return mapaAtual.mapa[linha]?.[coluna];
 }
 
 atualizar();
