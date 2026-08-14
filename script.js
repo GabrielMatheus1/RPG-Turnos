@@ -71,7 +71,7 @@ const teclasPressionadas = {};
 window.addEventListener("keydown", (event) => {
     const tecla = event.key.toLowerCase();
 
-    teclasPressionadas[tecla] = true;
+    definirTecla(tecla, true);
 
     if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.key)) {
         event.preventDefault();
@@ -81,8 +81,59 @@ window.addEventListener("keydown", (event) => {
 window.addEventListener("keyup", (event) => {
     const tecla = event.key.toLowerCase();
 
-    teclasPressionadas[tecla] = false;
+    definirTecla(tecla, false);
 });
+
+document.querySelectorAll("[data-key]").forEach((botao) => {
+    const tecla = botao.dataset.key;
+
+    botao.addEventListener("pointerdown", (event) => {
+        event.preventDefault();
+        botao.setPointerCapture(event.pointerId);
+        definirTecla(tecla, true);
+        botao.classList.add("is-pressed");
+    });
+
+    botao.addEventListener("pointerup", (event) => {
+        event.preventDefault();
+        soltarBotao(botao, tecla);
+    });
+
+    botao.addEventListener("pointercancel", () => {
+        soltarBotao(botao, tecla);
+    });
+
+    botao.addEventListener("lostpointercapture", () => {
+        soltarBotao(botao, tecla);
+    });
+});
+
+window.addEventListener("blur", limparControles);
+
+document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+        limparControles();
+    }
+});
+
+function definirTecla(tecla, pressionada) {
+    teclasPressionadas[tecla] = pressionada;
+}
+
+function soltarBotao(botao, tecla) {
+    definirTecla(tecla, false);
+    botao.classList.remove("is-pressed");
+}
+
+function limparControles() {
+    Object.keys(teclasPressionadas).forEach((tecla) => {
+        teclasPressionadas[tecla] = false;
+    });
+
+    document.querySelectorAll(".control-button").forEach((botao) => {
+        botao.classList.remove("is-pressed");
+    });
+}
 
 // ================================
 // Animacao
