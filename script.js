@@ -44,8 +44,8 @@ const jogador = new Mage({
 Object.assign(jogador, {
     x: spawn.x,
     y: spawn.y,
-    width: 40,
-    height: 40,
+    width: 80,
+    height: 80,
     acao: "parado",
     img: movimentoMage.parado()
 });
@@ -59,15 +59,6 @@ const teclasPressionadas = {};
 window.addEventListener("keydown", (event) => {
     const tecla = event.key.toLowerCase();
 
-    if (tecla === "j") {
-        if (!event.repeat && !movimentoMage.atacando) {
-            teclasPressionadas.j = true;
-            lancarMagia();
-        }
-
-        return;
-    }
-
     teclasPressionadas[tecla] = true;
 
     if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.key)) {
@@ -78,45 +69,8 @@ window.addEventListener("keydown", (event) => {
 window.addEventListener("keyup", (event) => {
     const tecla = event.key.toLowerCase();
 
-    if (tecla === "j") {
-        return;
-    }
-
     teclasPressionadas[tecla] = false;
 });
-
-// ================================
-// Magia
-// ================================
-
-const circuloMagia = new Image();
-circuloMagia.src = "./src/Imagens/herois/Magia/poder.png";
-
-let magiaAtiva = false;
-let inicioMagia = 0;
-let tempoDaMagia;
-
-const duracaoMagia = 900;
-const tamanhoInicialCirculo = 0;
-const tamanhoMaximoCirculo = 110;
-
-function lancarMagia() {
-    clearTimeout(tempoDaMagia);
-
-    magiaAtiva = true;
-    inicioMagia = performance.now();
-    tempoDaMagia = setTimeout(pararMagia, duracaoMagia);
-}
-
-function pararMagia() {
-    magiaAtiva = false;
-}
-
-const btnMagiaUm = document.querySelector("#magiaUm");
-
-if (btnMagiaUm) {
-    btnMagiaUm.addEventListener("click", lancarMagia);
-}
 
 // ================================
 // Animacao
@@ -169,12 +123,11 @@ function limitar(valor, minimo, maximo) {
 }
 
 function atualizarAnimacao(estaAndando) {
-    const estaAtacando = movimentoMage.atacando;
-    const proximaAcao = estaAtacando ? "atacar" : estaAndando ? "andar" : "parado";
+    const proximaAcao = estaAndando ? "andar" : "parado";
 
     if (jogador.acao !== proximaAcao) {
         jogador.acao = proximaAcao;
-        jogador.img = obterSpritesDaAcao(proximaAcao);
+        jogador.img = estaAndando ? movimentoMage.andar() : movimentoMage.parado();
         frameIndex = 0;
         contador = 0;
     }
@@ -185,29 +138,8 @@ function atualizarAnimacao(estaAndando) {
         return;
     }
 
-    if (jogador.acao === "atacar" && frameIndex === jogador.img.length - 1) {
-        teclasPressionadas.j = false;
-        movimentoMage.atacando = false;
-        jogador.acao = "";
-        frameIndex = 0;
-        contador = 0;
-        return;
-    }
-
     frameIndex = (frameIndex + 1) % jogador.img.length;
     contador = 0;
-}
-
-function obterSpritesDaAcao(acao) {
-    if (acao === "atacar") {
-        return movimentoMage.atacar();
-    }
-
-    if (acao === "andar") {
-        return movimentoMage.andar();
-    }
-
-    return movimentoMage.parado();
 }
 
 // ================================
@@ -221,7 +153,6 @@ function desenhar() {
     ctx.translate(-camera.x, -camera.y);
 
     desenharMapa();
-    desenharCirculoMagia();
     desenharJogador();
 
     ctx.restore();
@@ -254,50 +185,6 @@ function corDoBloco(bloco) {
         default:
             return "#77b86c";
     }
-}
-
-function desenharCirculoMagia() {
-    if (!circuloMagia.complete || circuloMagia.naturalWidth === 0) {
-        return;
-    }
-
-    let tamanho = tamanhoInicialCirculo;
-    let opacidade = 0.6;
-    let rotacao = performance.now() / 1000;
-
-    const centroX = jogador.x + jogador.width / 2;
-    const centroY = jogador.y + jogador.height / 2;
-
-    if (magiaAtiva) {
-        const progresso = Math.min((performance.now() - inicioMagia) / duracaoMagia, 1);
-
-        if (progresso >= 1) {
-            magiaAtiva = false;
-        } else {
-            tamanho = calcularTamanhoCirculo(progresso);
-            opacidade = progresso > 0.85 ? 0.6 + ((1 - progresso) / 0.15) * 0.4 : 1;
-            rotacao = progresso * Math.PI * 4;
-        }
-    }
-
-    ctx.save();
-    ctx.globalAlpha = opacidade;
-    ctx.translate(centroX, centroY);
-    ctx.rotate(rotacao);
-    ctx.drawImage(circuloMagia, -tamanho / 2, -tamanho / 2, tamanho, tamanho);
-    ctx.restore();
-}
-
-function calcularTamanhoCirculo(progresso) {
-    if (progresso < 0.3) {
-        return tamanhoInicialCirculo + (tamanhoMaximoCirculo - tamanhoInicialCirculo) * (progresso / 0.3);
-    }
-
-    if (progresso < 0.75) {
-        return tamanhoMaximoCirculo;
-    }
-
-    return tamanhoMaximoCirculo - (tamanhoMaximoCirculo - tamanhoInicialCirculo) * ((progresso - 0.75) / 0.25);
 }
 
 function desenharJogador() {

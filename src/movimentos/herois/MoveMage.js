@@ -4,7 +4,6 @@ export class MovimentoMage {
 
         this.velocidade = 2;
         this.direcao = "direita"; 
-        this.atacando = false
 
         this.sprites = {
             parado: this.carregarImagens([
@@ -19,13 +18,6 @@ export class MovimentoMage {
                 "./src/Imagens/herois/Walk/walk_02.png",
                 "./src/Imagens/herois/Walk/walk_03.png",
                 "./src/Imagens/herois/Walk/walk_04.png"
-            ]),
-
-            atacar: this.carregarImagens([
-                "./src/Imagens/herois/Attack/attack_01.png",
-                "./src/Imagens/herois/Attack/attack_02.png",
-                "./src/Imagens/herois/Attack/attack_03.png",
-                "./src/Imagens/herois/Attack/attack_04.png"
             ])
         };
 
@@ -39,11 +31,6 @@ export class MovimentoMage {
 
     andar() {
         return this.sprites.andar;
-    }
-
-
-    atacar() {
-        return this.sprites.atacar;
     }
 
 
@@ -67,13 +54,6 @@ export class MovimentoMage {
 
         if (teclas.arrowdown || teclas.s) {
             movimentoY += 1;
-        }
-
-        if (teclas.j) {
-            this.atacando = true
-            this.atacar()
-        } else {
-            this.atacando = false
         }
 
         if (movimentoX === 0 && movimentoY === 0) {
@@ -103,4 +83,3 @@ export class MovimentoMage {
     }
     
 }
-
