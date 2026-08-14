@@ -251,15 +251,12 @@ export class RenderMapa {
     }
 
 
-    // ================================= //
-    // ======== DEFINIR MAPA =========== //
-    // ================================= //
-
     definirMapa(mapa) {
 
         this.mapaAtual = mapa;
 
     }
+
 
 
     // ================================= //
@@ -273,7 +270,6 @@ export class RenderMapa {
             return;
         }
 
-
         const matriz = this.mapaAtual.mapa;
 
         const largura = this.mapaAtual.largura;
@@ -282,14 +278,9 @@ export class RenderMapa {
 
         for (let linha = 0; linha < matriz.length; linha++) {
 
-            for (
-                let coluna = 0;
-                coluna < matriz[linha].length;
-                coluna++
-            ) {
+            for ( let coluna = 0; coluna < matriz[linha].length; coluna++ ) {
 
                 const bloco = matriz[linha][coluna];
-
 
                 const x = coluna * largura;
                 const y = linha * altura;
@@ -301,7 +292,7 @@ export class RenderMapa {
 
                 if (bloco === 0) {
 
-                    this.ctx.fillStyle = "green";
+                    this.ctx.fillStyle = "lightgreen";
 
                     this.ctx.fillRect(
                         x,
@@ -337,6 +328,24 @@ export class RenderMapa {
 
                 if (bloco === 2) {
 
+                    this.ctx.fillStyle = "darkgreen";
+
+                    this.ctx.fillRect(
+                        x,
+                        y,
+                        largura,
+                        altura
+                    );
+
+                }
+
+
+                // ============================= //
+                // =========== PErsonagem =========== //
+                // ============================= //
+
+                if (bloco === 3) {
+
                     this.ctx.fillStyle = "blue";
 
                     this.ctx.fillRect(
@@ -348,6 +357,27 @@ export class RenderMapa {
 
                 }
 
+
+                // ============================= //
+                // =========== INIMIGOS =========== //
+                // ============================= //
+
+                if (bloco === 4) {
+
+                    this.ctx.fillStyle = "red";
+
+                    this.ctx.fillRect(
+                        x,
+                        y,
+                        largura,
+                        altura
+                    );
+
+                }
+
+
+
+
             }
 
         }
@@ -355,15 +385,11 @@ export class RenderMapa {
     }
 
 
-    // ================================= //
-    // ======== TROCAR MAPA ============ //
-    // ================================= //
+    // trocarMapa(novoMapa) {
 
-    trocarMapa(novoMapa) {
+    //     this.mapaAtual = novoMapa;
+    //     console.log( `Mapa alterado para: ${novoMapa.nome}` );
 
-        this.mapaAtual = novoMapa;
-        console.log( `Mapa alterado para: ${novoMapa.nome}` );
-
-    }
+    // }
 
 }

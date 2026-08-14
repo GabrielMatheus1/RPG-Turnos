@@ -6,7 +6,18 @@
 
 }
 
-canvas {
-    background-color: aqua;
+body {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    background: #1f2933;
 }
 
+canvas {
+    width: min(100vw);
+    border: 2px solid white;
+    height: auto;
+    display: block;
+    background-color: #77b86c;
+    image-rendering: pixelated;
+}

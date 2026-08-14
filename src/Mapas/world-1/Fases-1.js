@@ -28,8 +28,8 @@ export const floresta = {
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
     ],
 
-    largura: 32,
-    altura: 32
+    largura: 100,
+    altura: 100
 
 };
 
@@ -37,5 +37,5 @@ export const floresta = {
 // 0 = caminho
 // 1 = parede
 // 2 = saída
-// 3 = jogador
+// 3 = jogador  
 // 4 = inimigo
