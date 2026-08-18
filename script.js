@@ -1,25 +1,23 @@
 import { Mage } from "./src/Classes/herois/Mage.js";
 import { MovimentoMage } from "./src/movimentos/herois/MoveMage.js";
+
 import { floresta } from "./src/Mapas/world-1/Fases-1.js";
 import { cavernaCristalina } from "./src/Mapas/world-1/Fases-2.js";
 import { pantanoProfundo } from "./src/Mapas/world-1/Fases-3.js";
 import { fortalezaAntiga } from "./src/Mapas/world-1/Fases-4.js";
 import { santuarioCentral } from "./src/Mapas/world-1/Fases-5.js";
 
-const fases = [
-    floresta,
-    cavernaCristalina,
-    pantanoProfundo,
-    fortalezaAntiga,
-    santuarioCentral
-];
+const fases = [floresta, cavernaCristalina, pantanoProfundo, fortalezaAntiga, santuarioCentral];
+const teclas = {};
+const cores = {
+    1: "#68452f",
+    2: "#167145",
+    4: "#9c2734",
+    padrao: "#77b86c"
+};
 
-let faseAtualIndex = 0;
-let mapaAtual = fases[faseAtualIndex];
-
-// ================================
-// Canvas
-// ================================
+let faseIndex = 0;
+let mapaAtual = fases[faseIndex];
 
 const canvas = document.querySelector("#game");
 const ctx = canvas.getContext("2d");
@@ -27,19 +25,15 @@ const ctx = canvas.getContext("2d");
 const camera = {
     x: 0,
     y: 0,
-    width: Math.min(640, obterLarguraMapa()),
-    height: Math.min(480, obterAlturaMapa())
+    width: Math.min(640, larguraMapa()),
+    height: Math.min(480, alturaMapa())
 };
 
 canvas.width = camera.width;
 canvas.height = camera.height;
 ctx.imageSmoothingEnabled = false;
 
-// ================================
-// Jogador
-// ================================
-
-const movimentoMage = new MovimentoMage();
+const movimento = new MovimentoMage();
 const spawn = encontrarTile(3);
 
 const jogador = new Mage({
@@ -59,77 +53,69 @@ Object.assign(jogador, {
     width: 80,
     height: 80,
     acao: "parado",
-    img: movimentoMage.parado()
+    img: movimento.parado()
 });
 
-// ================================
-// Controles
-// ================================
+const animacao = {
+    frame: 0,
+    contador: 0,
+    atraso: 8
+};
 
-const teclasPressionadas = {};
+configurarControles();
+atualizar();
 
-window.addEventListener("keydown", (event) => {
-    const tecla = event.key.toLowerCase();
+function configurarControles() {
+    window.addEventListener("keydown", (event) => {
+        pressionar(event.key, true);
 
-    definirTecla(tecla, true);
-
-    if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.key)) {
-        event.preventDefault();
-    }
-});
-
-window.addEventListener("keyup", (event) => {
-    const tecla = event.key.toLowerCase();
-
-    definirTecla(tecla, false);
-});
-
-document.querySelectorAll("[data-key]").forEach((botao) => {
-    const tecla = botao.dataset.key;
-
-    botao.addEventListener("pointerdown", (event) => {
-        event.preventDefault();
-        botao.setPointerCapture(event.pointerId);
-        definirTecla(tecla, true);
-        botao.classList.add("is-pressed");
+        if (event.key.startsWith("Arrow")) {
+            event.preventDefault();
+        }
     });
 
-    botao.addEventListener("pointerup", (event) => {
-        event.preventDefault();
-        soltarBotao(botao, tecla);
+    window.addEventListener("keyup", (event) => {
+        pressionar(event.key, false);
     });
 
-    botao.addEventListener("pointercancel", () => {
-        soltarBotao(botao, tecla);
+    document.querySelectorAll("[data-key]").forEach((botao) => {
+        const tecla = botao.dataset.key;
+
+        botao.addEventListener("pointerdown", (event) => {
+            event.preventDefault();
+            botao.setPointerCapture(event.pointerId);
+            pressionar(tecla, true);
+            botao.classList.add("is-pressed");
+        });
+
+        ["pointerup", "pointercancel", "lostpointercapture"].forEach((evento) => {
+            botao.addEventListener(evento, () => soltarBotao(botao, tecla));
+        });
     });
 
-    botao.addEventListener("lostpointercapture", () => {
-        soltarBotao(botao, tecla);
+    window.addEventListener("blur", limparControles);
+    window.addEventListener("resize", atualizarCamera);
+    window.addEventListener("orientationchange", atualizarCamera);
+
+    document.addEventListener("visibilitychange", () => {
+        if (document.hidden) {
+            limparControles();
+        }
     });
-});
+}
 
-window.addEventListener("blur", limparControles);
-window.addEventListener("resize", atualizarCamera);
-window.addEventListener("orientationchange", atualizarCamera);
-
-document.addEventListener("visibilitychange", () => {
-    if (document.hidden) {
-        limparControles();
-    }
-});
-
-function definirTecla(tecla, pressionada) {
-    teclasPressionadas[tecla] = pressionada;
+function pressionar(tecla, valor) {
+    teclas[tecla.toLowerCase()] = valor;
 }
 
 function soltarBotao(botao, tecla) {
-    definirTecla(tecla, false);
+    pressionar(tecla, false);
     botao.classList.remove("is-pressed");
 }
 
 function limparControles() {
-    Object.keys(teclasPressionadas).forEach((tecla) => {
-        teclasPressionadas[tecla] = false;
+    Object.keys(teclas).forEach((tecla) => {
+        teclas[tecla] = false;
     });
 
     document.querySelectorAll(".control-button").forEach((botao) => {
@@ -137,26 +123,16 @@ function limparControles() {
     });
 }
 
-// ================================
-// Animacao
-// ================================
-
-let frameIndex = 0;
-let contador = 0;
-const atraso = 8;
-
 function atualizar() {
-    const xAnterior = jogador.x;
-    const yAnterior = jogador.y;
-
-    const estaAndando = movimentoMage.mover(jogador, teclasPressionadas, {
-        width: obterLarguraMapa(),
-        height: obterAlturaMapa()
+    const posicaoAnterior = { x: jogador.x, y: jogador.y };
+    const estaAndando = movimento.mover(jogador, teclas, {
+        width: larguraMapa(),
+        height: alturaMapa()
     });
 
-    if (!podeOcupar(jogador.x, jogador.y)) {
-        jogador.x = xAnterior;
-        jogador.y = yAnterior;
+    if (temColisao(jogador.x, jogador.y)) {
+        jogador.x = posicaoAnterior.x;
+        jogador.y = posicaoAnterior.y;
     } else {
         verificarSaida();
     }
@@ -168,115 +144,68 @@ function atualizar() {
     requestAnimationFrame(atualizar);
 }
 
-function atualizarCamera() {
-    const centroJogadorX = jogador.x + jogador.width / 2;
-    const centroJogadorY = jogador.y + jogador.height / 2;
+function atualizarAnimacao(estaAndando) {
+    const acao = estaAndando ? "andar" : "parado";
 
+    if (jogador.acao !== acao) {
+        jogador.acao = acao;
+        jogador.img = estaAndando ? movimento.andar() : movimento.parado();
+        animacao.frame = 0;
+        animacao.contador = 0;
+    }
+
+    animacao.contador++;
+
+    if (animacao.contador >= animacao.atraso) {
+        animacao.frame = (animacao.frame + 1) % jogador.img.length;
+        animacao.contador = 0;
+    }
+}
+
+function atualizarCamera() {
     camera.x = limitar(
-        centroJogadorX - camera.width / 2,
+        jogador.x + jogador.width / 2 - camera.width / 2,
         0,
-        obterLarguraMapa() - camera.width
+        larguraMapa() - camera.width
     );
 
     camera.y = limitar(
-        centroJogadorY - camera.height / 2,
+        jogador.y + jogador.height / 2 - camera.height / 2,
         0,
-        obterAlturaMapa() - camera.height
+        alturaMapa() - camera.height
     );
 }
-
-function limitar(valor, minimo, maximo) {
-    if (maximo < minimo) {
-        return minimo;
-    }
-
-    return Math.min(Math.max(valor, minimo), maximo);
-}
-
-function obterLarguraMapa() {
-    return mapaAtual.mapa[0].length * mapaAtual.largura;
-}
-
-function obterAlturaMapa() {
-    return mapaAtual.mapa.length * mapaAtual.altura;
-}
-
-function verificarSaida() {
-    if (obterTileDoJogador() !== 2 || faseAtualIndex >= fases.length - 1) {
-        return;
-    }
-
-    trocarFase(faseAtualIndex + 1);
-}
-
-function trocarFase(novoIndex) {
-    faseAtualIndex = novoIndex;
-    mapaAtual = fases[faseAtualIndex];
-
-    const novoSpawn = encontrarTile(3);
-
-    jogador.x = novoSpawn.x;
-    jogador.y = novoSpawn.y;
-    camera.x = 0;
-    camera.y = 0;
-}
-
-function atualizarAnimacao(estaAndando) {
-    const proximaAcao = estaAndando ? "andar" : "parado";
-
-    if (jogador.acao !== proximaAcao) {
-        jogador.acao = proximaAcao;
-        jogador.img = estaAndando ? movimentoMage.andar() : movimentoMage.parado();
-        frameIndex = 0;
-        contador = 0;
-    }
-
-    contador++;
-
-    if (contador < atraso) {
-        return;
-    }
-
-    frameIndex = (frameIndex + 1) % jogador.img.length;
-    contador = 0;
-}
-
-// ================================
-// Render
-// ================================
 
 function desenhar() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     ctx.save();
     ctx.translate(-camera.x, -camera.y);
-
     desenharMapa();
     desenharJogador();
-
     ctx.restore();
 }
 
 function desenharMapa() {
-    const colunaInicial = Math.max(0, Math.floor(camera.x / mapaAtual.largura));
-    const colunaFinal = Math.min(
+    const inicioColuna = Math.max(0, Math.floor(camera.x / mapaAtual.largura));
+    const fimColuna = Math.min(
         mapaAtual.mapa[0].length,
         Math.ceil((camera.x + camera.width) / mapaAtual.largura) + 1
     );
 
-    const linhaInicial = Math.max(0, Math.floor(camera.y / mapaAtual.altura));
-    const linhaFinal = Math.min(
+    const inicioLinha = Math.max(0, Math.floor(camera.y / mapaAtual.altura));
+    const fimLinha = Math.min(
         mapaAtual.mapa.length,
         Math.ceil((camera.y + camera.height) / mapaAtual.altura) + 1
     );
 
-    for (let linha = linhaInicial; linha < linhaFinal; linha++) {
-        for (let coluna = colunaInicial; coluna < colunaFinal; coluna++) {
+    for (let linha = inicioLinha; linha < fimLinha; linha++) {
+        for (let coluna = inicioColuna; coluna < fimColuna; coluna++) {
             const bloco = mapaAtual.mapa[linha][coluna];
             const x = coluna * mapaAtual.largura;
             const y = linha * mapaAtual.altura;
 
-            ctx.fillStyle = corDoBloco(bloco);
+            ctx.fillStyle = cores[bloco] || cores.padrao;
             ctx.fillRect(x, y, mapaAtual.largura, mapaAtual.altura);
 
             ctx.strokeStyle = "rgba(0, 0, 0, 0.08)";
@@ -285,62 +214,64 @@ function desenharMapa() {
     }
 }
 
-function corDoBloco(bloco) {
-    switch (bloco) {
-        case 1:
-            return "#68452f";
-        case 2:
-            return "#167145";
-        case 4:
-            return "#9c2734";
-        default:
-            return "#77b86c";
-    }
-}
-
 function desenharJogador() {
-    const frameAtual = jogador.img[frameIndex];
+    const frame = jogador.img[animacao.frame];
 
-    if (!frameAtual.complete || frameAtual.naturalWidth === 0) {
+    if (!frame.complete || frame.naturalWidth === 0) {
         ctx.fillStyle = "#2454c6";
         ctx.fillRect(jogador.x, jogador.y, jogador.width, jogador.height);
         return;
     }
 
-    if (movimentoMage.direcao === "esquerda") {
+    if (movimento.direcao === "esquerda") {
         ctx.save();
         ctx.scale(-1, 1);
-        ctx.drawImage(frameAtual, -jogador.x - jogador.width, jogador.y, jogador.width, jogador.height);
+        ctx.drawImage(frame, -jogador.x - jogador.width, jogador.y, jogador.width, jogador.height);
         ctx.restore();
         return;
     }
 
-    ctx.drawImage(frameAtual, jogador.x, jogador.y, jogador.width, jogador.height);
+    ctx.drawImage(frame, jogador.x, jogador.y, jogador.width, jogador.height);
 }
 
-// ================================
-// Colisao
-// ================================
+function verificarSaida() {
+    const ultimaFase = faseIndex === fases.length - 1;
 
-function podeOcupar(x, y) {
+    if (blocoNoCentroDoJogador() !== 2 || ultimaFase) {
+        return;
+    }
+
+    faseIndex++;
+    mapaAtual = fases[faseIndex];
+
+    const novoSpawn = encontrarTile(3);
+    jogador.x = novoSpawn.x;
+    jogador.y = novoSpawn.y;
+    camera.x = 0;
+    camera.y = 0;
+}
+
+function temColisao(x, y) {
     const margem = 7;
     const pontos = [
-        { x: x + margem, y: y + margem },
-        { x: x + jogador.width - margem, y: y + margem },
-        { x: x + margem, y: y + jogador.height - margem },
-        { x: x + jogador.width - margem, y: y + jogador.height - margem }
+        [x + margem, y + margem],
+        [x + jogador.width - margem, y + margem],
+        [x + margem, y + jogador.height - margem],
+        [x + jogador.width - margem, y + jogador.height - margem]
     ];
 
-    return pontos.every((ponto) => {
-        const coluna = Math.floor(ponto.x / mapaAtual.largura);
-        const linha = Math.floor(ponto.y / mapaAtual.altura);
+    return pontos.some(([pontoX, pontoY]) => blocoNaPosicao(pontoX, pontoY) === 1);
+}
 
-        if (!mapaAtual.mapa[linha] || mapaAtual.mapa[linha][coluna] === undefined) {
-            return false;
-        }
+function blocoNoCentroDoJogador() {
+    return blocoNaPosicao(jogador.x + jogador.width / 2, jogador.y + jogador.height / 2);
+}
 
-        return mapaAtual.mapa[linha][coluna] !== 1;
-    });
+function blocoNaPosicao(x, y) {
+    const coluna = Math.floor(x / mapaAtual.largura);
+    const linha = Math.floor(y / mapaAtual.altura);
+
+    return mapaAtual.mapa[linha]?.[coluna] ?? 1;
 }
 
 function encontrarTile(tipo) {
@@ -358,13 +289,18 @@ function encontrarTile(tipo) {
     return { x: 0, y: 0 };
 }
 
-function obterTileDoJogador() {
-    const centroX = jogador.x + jogador.width / 2;
-    const centroY = jogador.y + jogador.height / 2;
-    const coluna = Math.floor(centroX / mapaAtual.largura);
-    const linha = Math.floor(centroY / mapaAtual.altura);
-
-    return mapaAtual.mapa[linha]?.[coluna];
+function larguraMapa() {
+    return mapaAtual.mapa[0].length * mapaAtual.largura;
 }
 
-atualizar();
+function alturaMapa() {
+    return mapaAtual.mapa.length * mapaAtual.altura;
+}
+
+function limitar(valor, minimo, maximo) {
+    if (maximo < minimo) {
+        return minimo;
+    }
+
+    return Math.min(Math.max(valor, minimo), maximo);
+}
