@@ -9,7 +9,7 @@
 html {
     width: 100%;
     height: 100%;
-    background: #1f2933;
+    background: #25313d;
     overscroll-behavior: none;
 }
 
@@ -18,26 +18,36 @@ body {
     min-height: 100svh;
     display: grid;
     place-items: center;
-    background: #1f2933;
+    background:
+        repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.04) 0 2px, transparent 2px 38px),
+        repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.035) 0 2px, transparent 2px 38px),
+        linear-gradient(135deg, #25313d 0%, #30445a 42%, #53705f 100%);
     overflow: hidden;
     touch-action: none;
     -webkit-user-select: none;
     user-select: none;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .game-screen {
     width: 100%;
     display: grid;
     place-items: center;
-    padding: 12px;
+    min-height: 100svh;
+    padding: clamp(14px, 3vw, 26px);
 }
 
 canvas {
-    width: min(calc(100vw - 24px), 800px, calc((100svh - 24px) * 4 / 3));
-    border: 2px solid #111827;
+    width: min(calc(100vw - 32px), 860px, calc((100svh - 36px) * 4 / 3));
     height: auto;
     display: block;
+    border: 8px solid #f7edc8;
+    border-radius: 8px;
+    outline: 7px solid #202633;
     background-color: #77b86c;
+    box-shadow:
+        0 20px 45px rgba(0, 0, 0, 0.36),
+        inset 0 0 0 4px rgba(0, 0, 0, 0.12);
     image-rendering: pixelated;
     touch-action: none;
 }
@@ -59,26 +69,33 @@ canvas {
 }
 
 .control-button {
+    --control-size: clamp(54px, 15vw, 68px);
+    --control-gap: clamp(6px, 2vw, 10px);
     width: var(--control-size);
     height: var(--control-size);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 50%;
-    color: #f8fafc;
-    background: rgba(17, 24, 39, 0.78);
+    border: 3px solid #f7edc8;
+    border-radius: 8px;
+    color: #fff8e7;
+    background: #273141;
     font-size: 24px;
     line-height: 1;
     display: grid;
     place-items: center;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(6px);
+    box-shadow:
+        0 8px 0 #111827,
+        0 16px 20px rgba(0, 0, 0, 0.3);
     cursor: pointer;
     touch-action: none;
+    transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
 }
 
 .control-button:active,
 .control-button.is-pressed {
-    background: rgba(36, 84, 198, 0.9);
-    transform: translateY(1px);
+    background: #d74343;
+    box-shadow:
+        0 4px 0 #111827,
+        0 10px 16px rgba(0, 0, 0, 0.28);
+    transform: translateY(4px);
 }
 
 .control-button.up {
@@ -101,20 +118,46 @@ canvas {
     grid-row: 2;
 }
 
+.control-button.dash {
+    display: none;
+    position: fixed;
+    right: max(18px, env(safe-area-inset-right));
+    bottom: calc(max(18px, env(safe-area-inset-bottom)) + var(--control-size) + var(--control-gap));
+    z-index: 11;
+    border-radius: 50%;
+    background: #d74343;
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.control-button.dash:active,
+.control-button.dash.is-pressed {
+    background: #43a85c;
+}
+
 @media (hover: none), (max-width: 768px) {
     body {
         place-items: start center;
         padding-top: 16px;
     }
 
+    .game-screen {
+        min-height: auto;
+        padding: 0 12px;
+    }
+
     .mobile-controls {
+        display: grid;
+    }
+
+    .control-button.dash {
         display: grid;
     }
 
     canvas {
         width: min(
-            calc(100vw - 24px),
-            calc((100svh - 240px - env(safe-area-inset-bottom)) * 4 / 3)
+            calc(100vw - 32px),
+            calc((100svh - 250px - env(safe-area-inset-bottom)) * 4 / 3)
         );
     }
 }
@@ -126,6 +169,7 @@ canvas {
     }
 
     .game-screen {
+        min-height: 100svh;
         padding: 12px 12px 12px max(220px, calc(env(safe-area-inset-left) + 220px));
     }
 
@@ -136,5 +180,10 @@ canvas {
     .mobile-controls {
         left: max(18px, env(safe-area-inset-left));
         transform: none;
+    }
+
+    .control-button.dash {
+        right: max(18px, env(safe-area-inset-right));
+        bottom: max(24px, env(safe-area-inset-bottom));
     }
 }
